@@ -218,14 +218,12 @@ int collisionSnake (int x, int y, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLeng
 
 //Generates food & Makes sure the food doesn't appear on top of the snake <- This sometimes causes a lag issue!!! Not too much of a problem tho
 int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
-{
-	int i;
-	
+{	
 	do
 	{
-		srand ( time(NULL) );
+		srand ( (unsigned int)time(NULL) );
 		foodXY[0] = rand() % (width-2) + 2;
-		srand ( time(NULL) );
+		srand ( (unsigned int)time(NULL) );
 		foodXY[1] = rand() % (height-6) + 2;
 	} while (collisionSnake(foodXY[0], foodXY[1], snakeXY, snakeLength, 0)); //This should prevent the "Food" from being created on top of the snake. - However the food has a chance to be created ontop of the snake, in which case the snake should eat it...
 
