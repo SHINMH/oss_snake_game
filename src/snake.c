@@ -482,7 +482,7 @@ void inputScore(int score) //This seriously needs to be cleaned up
 		if(score >= fScore && entered != 1)
 		{
 			scores[x] = score;
-			strcpy(highScoreNames[x], name);
+			strcpy_s(highScoreNames[x], sizeof(highScoreNames[x]),name);
 			
 			//printf("%d",x+1);
 			//printf("\t%d\t\t\t%s\n",score, name);		
@@ -493,7 +493,7 @@ void inputScore(int score) //This seriously needs to be cleaned up
 		//printf("%d",x+1);
 		//printf("\t%d\t\t\t%s\n",fScore, highScoreName);
 		//strcpy(text, text+"%d\t%d\t\t\t%s\n");
-		strcpy(highScoreNames[x], highScoreName);
+		strcpy_s(highScoreNames[x],sizeof(highScoreNames[x]), highScoreName);
 		scores[x] = fScore;
 		
 		//highScoreName = "";
