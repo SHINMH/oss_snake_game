@@ -294,7 +294,7 @@ void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 }
 
 /**
-* @berief int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[]) 
+* @brief int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[]) 
 * 먹이와 접촉했을때, 먹이를 먹을 수 있는지 확인하고 가능하다면 먹는 함수.
 *
 * @param int snakeXY[][SNAKE_ARRAY_SIZE] :
