@@ -166,8 +166,6 @@ int getGameSpeed(void)
 
 void pauseMenu(void)
 {
-	int i;
-	
 	gotoxy(28,23);
 	printf("**Paused**");
 	
