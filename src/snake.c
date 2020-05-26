@@ -28,7 +28,7 @@ Although this program may compile/ run in Cygwin it runs slowly.
 #ifdef _WIN32
 	//Windows Libraries
 	#include <conio.h>
-
+	#include <Windows.h>
 	//Windows Constants
 	//Controls
 	#define UP_ARROW 72
@@ -43,6 +43,21 @@ Although this program may compile/ run in Cygwin it runs slowly.
 	const char WALL = (char)219;	
 	const char FOOD = (char)254;
 	const char BLANK = ' ';
+
+	void gotoxy(int x,int y)
+	{
+		COORD Pos;
+		Pos.X = (short)x;
+		Pos.Y = (short)y;
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+	}
+
+	void clrscr()
+	{
+		system("cls");
+		return;
+	}
+	
 #else
 	//Linux Libraries
 	#include <stdlib.h>
