@@ -403,7 +403,7 @@ int getLowestScore()
 	//Gets converts the string to int
 	for(i=0;i < intLength; i++)
 	{
-		lowestScore = lowestScore + ((int)str[2+i] - 48) * pow(10,intLength-i-1);
+		lowestScore = lowestScore + ((int)str[2+i] - 48) * (int)pow(10,intLength-i-1);
 	}
 
 	return(lowestScore);
@@ -471,7 +471,7 @@ void inputScore(int score) //This seriously needs to be cleaned up
 		for(i=0;i < intLength; i++)
 		{
 			//printf("%c", str[2+i]);
-			fScore = fScore + ((int)str[2+i] - 48) * pow(10,intLength-i-1);
+			fScore = fScore + ((int)str[2+i] - 48) * (int)pow(10,intLength-i-1);
 		}
 		
 		if(score >= fScore && entered != 1)
