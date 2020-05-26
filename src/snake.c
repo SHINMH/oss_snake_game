@@ -499,7 +499,7 @@ void inputScore(int score) //This seriously needs to be cleaned up
 		//highScoreName = "";
 		for(y=0;y<20;y++)
 		{
-			highScoreName[y] = NULL;
+			highScoreName[y] = '\0';
 		}
 		
 		x++;
