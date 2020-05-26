@@ -183,9 +183,9 @@ int checkKeysPressed(int direction)
 {
 	int pressed;
 	
-	if(kbhit()) //If a key has been pressed
+	if(_kbhit()) //If a key has been pressed
 	{
-		pressed=getch();
+		pressed=_getch();
 		if (direction != pressed)
 		{
 			if(pressed == DOWN_ARROW && direction != UP_ARROW)
