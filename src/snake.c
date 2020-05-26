@@ -327,6 +327,12 @@ int collisionDetection(int snakeXY[][SNAKE_ARRAY_SIZE], int consoleWidth, int co
 	return(colision);
 }
 
+/**
+* 화면 하단의 정보 바를 갱신.
+*
+* @param int score : 플레이어의 현재 점수
+* @param int speed : 현재 게임의 속도 (단계)
+**/
 void refreshInfoBar(int score, int speed)
 {
 	gotoxy(5,23);
