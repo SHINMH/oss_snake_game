@@ -143,10 +143,10 @@ char waitForAnyKey(void)
 {
 	int pressed;
 	
-	while(!kbhit());
+	while(!_kbhit());
 	
-	pressed = getch();
-	//pressed = tolower(pressed);
+	pressed = _getch();
+	
 	return((char)pressed);
 }
 
