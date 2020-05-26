@@ -380,7 +380,7 @@ void createHighScores(void)
 int getLowestScore()
 {
 	FILE *fp;
-	char str[128];
+	char* str = (char*)malloc(sizeof(char)*128);
 	int lowestScore = 0;
 	int i;
 	int intLength;
@@ -422,16 +422,16 @@ void inputScore(int score) //This seriously needs to be cleaned up
 {
 	FILE *fp;
 	FILE *file; 
-	char str[20];
+	char* str = (char*)malloc(sizeof(char)*128);
 	int fScore;
 	int i, s, y;
 	int intLength;
-	int scores[5];
+	int* scores = (int*)malloc(sizeof(int)*5);
 	int x;
-	char highScoreName[20];
+	char* highScoreName = (char*)malloc(sizeof(char)*20);
 	char highScoreNames[5][20];
 	
-	char name[20];
+	char* name = (char*)malloc(sizeof(char)*20);
 	
 	int entered = 0;
 	
@@ -526,7 +526,7 @@ void inputScore(int score) //This seriously needs to be cleaned up
 void displayHighScores(void) //NEED TO CHECK THIS CODE!!!
 {
 	FILE *fp;
-	char str[128];
+	char* str = (char*)malloc(sizeof(char)*128);
 	int y = 5;
 	
 	clrscr(); //clear the console
