@@ -166,8 +166,6 @@ int getGameSpeed(void)
 
 void pauseMenu(void)
 {
-	int i;
-	
 	gotoxy(28,23);
 	printf("**Paused**");
 	
@@ -218,14 +216,12 @@ int collisionSnake (int x, int y, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLeng
 
 //Generates food & Makes sure the food doesn't appear on top of the snake <- This sometimes causes a lag issue!!! Not too much of a problem tho
 int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
-{
-	int i;
-	
+{	
 	do
 	{
-		srand ( time(NULL) );
+		srand ( (unsigned int)time(NULL) );
 		foodXY[0] = rand() % (width-2) + 2;
-		srand ( time(NULL) );
+		srand ( (unsigned int)time(NULL) );
 		foodXY[1] = rand() % (height-6) + 2;
 	} while (collisionSnake(foodXY[0], foodXY[1], snakeXY, snakeLength, 0)); //This should prevent the "Food" from being created on top of the snake. - However the food has a chance to be created ontop of the snake, in which case the snake should eat it...
 
@@ -297,16 +293,23 @@ void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 	return;
 }
 
-//This function checks if the snakes head his on top of the food, if it is then it'll generate some more food...
+/**
+* @brief int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[]) 
+* 먹이와 접촉했을때, 먹이를 먹을 수 있는지 확인하고 가능하다면 먹는 함수.
+*
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] :
+* @param int foodXY[] : 
+* @return 0: 먹이가 존재하지 않음, 1: 정상적으로 먹이를 먹은 경우.
+**/
 int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[]) 
 {
-	if (snakeXY[0][0] == foodXY[0] && snakeXY[1][0] == foodXY[1])
+	if (snakeXY[0][0] == foodXY[0] && snakeXY[1][0] == foodXY[1]) //Snake head의 x, y 좌표가 먹이의 위치와 일치할 경우.
 	{
 		foodXY[0] = 0;
-		foodXY[1] = 0; //This should prevent a nasty bug (loops) need to check if the bug still exists...
+		foodXY[1] = 0; // fixme: 무한 반복되는 버그가 있는 것으로 알려짐.  여전히 버그가 발생하는지 확인 필요.
 		
-		printf("\7"); //Beep
-		return(1);
+		printf("\7"); //비프음
+		return(1); // 1
 	}		
 	
 	return(0);
@@ -324,6 +327,12 @@ int collisionDetection(int snakeXY[][SNAKE_ARRAY_SIZE], int consoleWidth, int co
 	return(colision);
 }
 
+/**
+* 화면 하단의 정보 바를 갱신.
+*
+* @param int score : 플레이어의 현재 점수
+* @param int speed : 현재 게임의 속도 (단계)
+**/
 void refreshInfoBar(int score, int speed)
 {
 	gotoxy(5,23);
