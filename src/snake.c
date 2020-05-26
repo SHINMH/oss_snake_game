@@ -236,34 +236,22 @@ int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_
 }
 
 /*
-Moves the snake array forward, i.e. 
-This:
- x 1 2 3 4 5 6
- y 1 1 1 1 1 1
-Becomes This:
- x 1 1 2 3 4 5
- y 1 1 1 1 1 1
- 
- Then depending on the direction (in this case west - left) it becomes:
- 
- x 0 1 2 3 4 5
- y 1 1 1 1 1 1
- 
- snakeXY[0][0]--; <- if direction left, take 1 away from the x coordinate
+뱀을 이동시킨 후 뱀의 몸통부분과 뱀의 머리 방향을 재설정하는 함수.
+뱀을 나타내기위한 배열, 뱀의 길이, 이동방향을 파라미터로 받는다.
+이동 후에 뱀의 몸통부분 배열을 재배열하고, 이동방향에 따라 뱀의 머리 방향을 설정한다.
 */
 void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 {
 	int i;
+	
+	//뱀의 배열의 각 인덱스의 값을 한칸씩 뒤로 밀어 뱀의 몸통부분이 이동한 것을 구현한다.
 	for( i = snakeLength-1; i >= 1; i-- )
 	{
-		snakeXY[0][i] = snakeXY[0][i-1];
-		snakeXY[1][i] = snakeXY[1][i-1];
+		snakeXY[0][i] = snakeXY[0][i-1]; //뱀의 위, 아래를 표현하는 배열
+		snakeXY[1][i] = snakeXY[1][i-1]; //뱀의 왼쪽, 오른쪽을 표현하는 배열
 	}	
 	
-	/*
-	because we dont actually know the new snakes head x y, 
-	we have to check the direction and add or take from it depending on the direction.
-	*/
+	//파라미터로 받은 방향에 따라 뱀의 머리 방향을 설정한다.
 	switch(direction)
 	{
 		case DOWN_ARROW:
