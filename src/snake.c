@@ -295,16 +295,23 @@ void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 	return;
 }
 
-//This function checks if the snakes head his on top of the food, if it is then it'll generate some more food...
+/**
+* @berief int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[]) 
+* 먹이와 접촉했을때, 먹이를 먹을 수 있는지 확인하고 가능하다면 먹는 함수.
+*
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] :
+* @param int foodXY[] : 
+* @return 0: 먹이가 존재하지 않음, 1: 정상적으로 먹이를 먹은 경우.
+**/
 int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[]) 
 {
-	if (snakeXY[0][0] == foodXY[0] && snakeXY[1][0] == foodXY[1])
+	if (snakeXY[0][0] == foodXY[0] && snakeXY[1][0] == foodXY[1]) //Snake head의 x, y 좌표가 먹이의 위치와 일치할 경우.
 	{
 		foodXY[0] = 0;
-		foodXY[1] = 0; //This should prevent a nasty bug (loops) need to check if the bug still exists...
+		foodXY[1] = 0; // fixme: 무한 반복되는 버그가 있는 것으로 알려짐.  여전히 버그가 발생하는지 확인 필요.
 		
-		printf("\7"); //Beep
-		return(1);
+		printf("\7"); //비프음
+		return(1); // 1
 	}		
 	
 	return(0);
