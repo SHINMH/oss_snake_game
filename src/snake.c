@@ -359,7 +359,7 @@ void createHighScores(void)
 	FILE *file; 
 	int i;
 
-	file = fopen("highscores.txt","w+");
+	file = fopen_s(&file,"highscores.txt","w+");
 	
 	if(file == NULL)
 	{
@@ -385,7 +385,7 @@ int getLowestScore()
 	int i;
 	int intLength;
 	
-	if((fp = fopen("highscores.txt", "r")) == NULL)
+	if((fp = fopen_s(&fp,"highscores.txt", "r")) == NULL)
 	{
 		//Create the file, then try open it again.. if it fails this time exit.
 		createHighScores(); //This should create a highscores file (If there isn't one)
@@ -437,13 +437,9 @@ void inputScore(int score) //This seriously needs to be cleaned up
 	
 	clrscr(); //clear the console
 	
-	if((fp = fopen("highscores.txt", "r")) == NULL)
-	{
-		//Create the file, then try open it again.. if it fails this time exit.
-		createHighScores(); //This should create a highscores file (If there isn't one)
-		if((fp = fopen("highscores.txt", "r")) == NULL)
-			exit(1);
-	}
+	fopen_s(&fp, "highscore.txt", "r");
+	if(fp == NULL)
+	    exit(1);
 	gotoxy(10,5);
 	printf("Your Score made it into the top 5!!!");
 	gotoxy(10,6);
@@ -513,15 +509,16 @@ void inputScore(int score) //This seriously needs to be cleaned up
 	
 	fclose(fp);
 	
-	file = fopen("highscores.txt","w+");
+	fopen_s(&fp, "highscores.txt", "w+");
 	
 	for(i=0;i<5;i++)
 	{
 		//printf("%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);
-		fprintf(file, "%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);	
+		fprintf(fp, "%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);	
 	}
 
-	fclose(file);
+	if(!fp == '0')
+	    fclose(fp);
 	
 	return;
 }
@@ -533,11 +530,12 @@ void displayHighScores(void) //NEED TO CHECK THIS CODE!!!
 	int y = 5;
 	
 	clrscr(); //clear the console
-	
-	if((fp = fopen("highscores.txt", "r")) == NULL) {
+	fopen_s(&fp, "highscores.txt", "r");
+
+	if(fp == NULL) {
 		//Create the file, then try open it again.. if it fails this time exit.
 		createHighScores(); //This should create a highscores file (If there isn't one)
-		if((fp = fopen("highscores.txt", "r")) == NULL)
+		if(!fopen_s(&fp, "highscores.txt", "r"))
 			exit(1);
 	}
 	
