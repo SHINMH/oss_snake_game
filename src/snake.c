@@ -373,7 +373,7 @@ void createHighScores(void)
 	FILE *file; 
 	int i;
 
-	file = fopen_s(&file,"highscores.txt","w+");
+	fopen_s(&file,"highscores.txt","w+");
 	
 	if(file == NULL)
 	{
@@ -398,18 +398,19 @@ int getLowestScore()
 	int lowestScore = 0;
 	int i;
 	int intLength;
-	
-	if((fp = fopen_s(&fp,"highscores.txt", "r")) == NULL)
+	fopen_s(&fp,"highscores.txt", "r");
+	rewind(fp);
+	if((fp == NULL)
 	{
 		//Create the file, then try open it again.. if it fails this time exit.
 		createHighScores(); //This should create a highscores file (If there isn't one)
-		if((fp = fopen("highscores.txt", "r")) == NULL)
+		if(fp == NULL)
 			exit(1);
 	}
 
 	while(!feof(fp))
 	{
-		fgets(str, 126, fp);  
+		fgets(str, sizeof(str), fp);  
 	}
 	fclose(fp);	
 	
@@ -435,7 +436,6 @@ int getLowestScore()
 void inputScore(int score) //This seriously needs to be cleaned up
 {
 	FILE *fp;
-	FILE *file; 
 	char* str = (char*)malloc(sizeof(char)*128);
 	int fScore;
 	int i, s, y;
@@ -528,7 +528,8 @@ void inputScore(int score) //This seriously needs to be cleaned up
 	for(i=0;i<5;i++)
 	{
 		//printf("%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);
-		fprintf(fp, "%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);	
+	    if(!fp == '0')	
+		    fprintf(fp, "%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);	
 	}
 
 	if(!fp == '0')
