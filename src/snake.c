@@ -443,7 +443,7 @@ void inputScore(int score) //This seriously needs to be cleaned up
 	printf("Your Score made it into the top 5!!!");
 	gotoxy(10,6);
 	printf("Please enter your name: ");
-	gets(name);
+	gets_s(name,sizeof(name));
 	
 	x = 0;
 	while(!feof(fp))
