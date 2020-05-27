@@ -231,23 +231,26 @@ int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_
 	return(0);
 }
 
-/*
-뱀을 이동시킨 후 뱀의 몸통부분과 뱀의 머리 방향을 재설정하는 함수.
-뱀을 나타내기위한 배열, 뱀의 길이, 이동방향을 파라미터로 받는다.
-이동 후에 뱀의 몸통부분 배열을 재배열하고, 이동방향에 따라 뱀의 머리 방향을 설정한다.
-*/
+/**
+* 뱀을 이동시킨 후 뱀의 몸통부분과 뱀의 머리 방향을 재설정하는 함수.
+* 이동 후에 뱀의 몸통부분 배열을 재배열하고, 이동방향에 따라 뱀의 머리 방향을 설정
+* 
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀을 나타내기위한 함수
+* @param int snakeLength : 뱀 길이
+* @param int direction : 이동 방향
+**/
 void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 {
 	int i;
 	
-	//뱀의 배열의 각 인덱스의 값을 한칸씩 뒤로 밀어 뱀의 몸통부분이 이동한 것을 구현한다.
+	//뱀의 배열의 각 인덱스의 값을 한칸씩 뒤로 밀어 뱀의 몸통부분이 이동한 것을 구현
 	for( i = snakeLength-1; i >= 1; i-- )
 	{
 		snakeXY[0][i] = snakeXY[0][i-1]; //뱀의 위, 아래를 표현하는 배열
 		snakeXY[1][i] = snakeXY[1][i-1]; //뱀의 왼쪽, 오른쪽을 표현하는 배열
 	}	
 	
-	//파라미터로 받은 방향에 따라 뱀의 머리 방향을 설정한다.
+	//파라미터로 받은 방향에 따라 뱀의 머리 방향을 설정
 	switch(direction)
 	{
 		case DOWN_ARROW:
@@ -266,29 +269,41 @@ void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direct
 	
 	return;
 }
-
+/**
+* 방향키 입력 후 뱀의 모습을 나타내는 함수.
+* 꼬리 부분을 먼저 삭제하고, 이동 전의 머리부분을 몸통으로 바꿈
+* 그 후, moveSnakeArray 함수를 이용해 몸통부분을 바꾸고, 뱀의 머리방향을 설정
+* 마지막으로 새로운 머리의 위치에 머리를 출력
+*
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀을 나타내기위한 배열
+* @param int snakeLength : 뱀 길이
+* @param int direction : 이동방향
+**/
 void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 {
-	int x;
-	int y;
+	//커서 위치 좌표
+	int x, y;
 
-	//Remove the tail ( HAS TO BE DONE BEFORE THE ARRAY IS MOVED!!!!! )
+	//이동 전 위치의 뱀 꼬리의 위치를 저장
 	x = snakeXY[0][snakeLength-1];
 	y = snakeXY[1][snakeLength-1];
 	
+	//꼬리 부분의 위치로 이동해 꼬리 삭제
 	gotoxy(x,y);
 	printf("%c",BLANK);	
 	
-	//Changes the head of the snake to a body part
+	//이동 전 뱀의 머리부분으로 이동해 그 위치를 몸통으로 바꿈
 	gotoxy(snakeXY[0][0],snakeXY[1][0]);	
 	printf("%c", SNAKE_BODY);
 	
+	//이동 후 뱀의 몸통부분을 재배열하고, 뱀의 머리방향 설정
 	moveSnakeArray(snakeXY, snakeLength, direction);
 	
+	//새로운 머리 부분으로 이동해 머리 출력
 	gotoxy(snakeXY[0][0],snakeXY[1][0]);	
 	printf("%c",SNAKE_HEAD);
 	
-	gotoxy(1,1); //Gets rid of the darn flashing underscore.
+	gotoxy(1,1); //(1,1)로 커서 이동
 	
 	return;
 }
@@ -860,93 +875,106 @@ void prepairSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
 	return;
 }
 
-//This function loads the enviroment, snake, etc
+/**
+* 게임시작 직전, 모든 환경을 설정한 후, 게임시작함수를 호출하는 함수.
+* 벽 생성, 뱀 표현, 음식 생성, 게임정보 출력 후 게임을 시작한다.
+**/
 void loadGame(void)
 {
-	int snakeXY[2][SNAKE_ARRAY_SIZE]; //Two Dimentional Array, the first array is for the X coordinates and the second array for the Y coordinates
+	int snakeXY[2][SNAKE_ARRAY_SIZE]; //뱀을 나타내기위한 배열
 	
-	int snakeLength = 4; //Starting Length
+	int snakeLength = 4; //초기 뱀 길이
 	
-	int direction = LEFT_ARROW; //DO NOT CHANGE THIS TO RIGHT ARROW, THE GAME WILL INSTANTLY BE OVER IF YOU DO!!! <- Unless the prepairSnakeArray function is changed to take into account the direction....
+	int direction = LEFT_ARROW; //게임 시작 후 뱀 머리의 첫 방향
 	
-	int foodXY[] = {5,5};// Stores the location of the food
+	int foodXY[] = {5,5}; //음식 위치 저장
 	
-	int score = 0;
-	//int level = 1;
+	int score = 0; //초기 점수
 	
-	//Window Width * Height - at some point find a way to get the actual dimensions of the console... <- Also somethings that display dont take this dimentions into account.. need to fix this...
+	//벽 너비, 높이 설정	
 	int consoleWidth = 80;
 	int consoleHeight = 25;
 	
+	//게임 스피드 설정
 	int speed = getGameSpeed();
 	
-	//The starting location of the snake
+	//초기 뱀머리 위치 설정
 	snakeXY[0][0] = 40; 
 	snakeXY[1][0] = 10;
 	
-	loadEnviroment(consoleWidth, consoleHeight); //borders
-	prepairSnakeArray(snakeXY, snakeLength);
-	loadSnake(snakeXY, snakeLength);
-	generateFood( foodXY, consoleWidth, consoleHeight, snakeXY, snakeLength);
-	refreshInfoBar(score, speed); //Bottom info bar. Score, Level etc
-	startGame(snakeXY, foodXY, consoleWidth, consoleHeight, snakeLength, direction, score, speed);
+	loadEnviroment(consoleWidth, consoleHeight); //벽 생성
+	prepairSnakeArray(snakeXY, snakeLength); //뱀을 나타내기위한 배열 생성
+	loadSnake(snakeXY, snakeLength); //뱀 출력
+	generateFood( foodXY, consoleWidth, consoleHeight, snakeXY, snakeLength); //음식 생성
+	refreshInfoBar(score, speed); //게임 정보 출력
+	startGame(snakeXY, foodXY, consoleWidth, consoleHeight, snakeLength, direction, score, speed); //본격적인 게임 시작
 
 	return;
 }
 
-//**************MENU STUFF**************//
-
+/**
+* 메뉴 선택 구현 함수.
+* 
+* @param int x : 커서 x좌표
+* @param int y : 커서 y좌표
+* @param int yStart : 초기 커서 y좌표
+* @return i : 메뉴에 할당된 값 (i = 0, 1, 2, 3)
+**/
 int menuSelector(int x, int y, int yStart)
 {
-	char key;
+	char key; //키 저장 변수
 	int i = 0;
-	x = x - 2;
+	x = x - 2; // ">"를 나타내기 위해 메뉴가 써있는 위치보다 왼쪽으로 두칸 이동
+	//초기 ">"의 위치 출력
 	gotoxy(x,yStart);
-	
 	printf(">");
 	
+	//커서 좌표 (1,1) 이동
 	gotoxy(1,1);
 
-	
+	//방향키 위, 아래를 입력하며 메뉴 선택 구현
 	do
 	{
-		key = waitForAnyKey();
-		//printf("%c %d", key, (int)key);
-		if ( key == (char)UP_ARROW )
+		key = waitForAnyKey(); //입력 대기
+
+		if ( key == (char)UP_ARROW ) //위 방향키 입력
 		{
-			gotoxy(x,yStart+i);
+			gotoxy(x,yStart+i); //이동했으니 원래 있던 위치에 있는 ">"를 지움
 			printf(" ");
 			
-			if (yStart >= yStart+i ) 
+			if (yStart >= yStart+i ) //위로 이동할 때, 제일 위에있는 메뉴의 위치보다 더 위로 올라가면 위치를 재조정하여 제일 아래로 오게함
 				i = y - yStart - 2;
-			else
+			else //단순히 위로 올라가는 것 구현
 				i--;
-			gotoxy(x,yStart+i);
+			gotoxy(x,yStart+i); //y좌표를 계산한 것에 따라 ">" 출력
 			printf(">");
 		}
 		else
-			if ( key == (char)DOWN_ARROW )
+			if ( key == (char)DOWN_ARROW ) //아래 방향키 입력
 			{
-				gotoxy(x,yStart+i);
+				gotoxy(x,yStart+i); //이동했으니 원래 있던 위치에 있는 ">"를 지움
 				printf(" ");
 				
-				if (i+2 >= y - yStart ) 
+				if (i+2 >= y - yStart ) //아래로 이동할 때, 제일 아래에 있는 메뉴의 위치보다 더 아래로 내려가면 위치를 재조정하여 제일 위로 오게함
 					i = 0;
-				else
+				else //단순히 아래로 내려가는 것 구현
 					i++;
-				gotoxy(x,yStart+i);
+				gotoxy(x,yStart+i); //y좌표를 계산한 것에 따라 ">" 출력
 				printf(">");				
 			}	
-			//gotoxy(1,1);
-			//printf("%d", key);
-	} while(key != (char)ENTER_KEY); //While doesn't equal enter... (13 ASCII code for enter) - note ubuntu is 10
+
+	} while(key != (char)ENTER_KEY); //Enter키 입력 시 종료
+
 	return(i);
 }
-
+/**
+* 초기화면 출력 함수.
+* 초기화면을 출력한 후, waitForAnyKey()를 이용해 입력대기
+**/
 void welcomeArt(void)
 {
-	clrscr(); //clear the console
-	//Ascii art reference: http://www.chris.com/ascii/index.php?art=animals/reptiles/snakes
+	clrscr(); //전체화면 지움
+
 	printf("\n");	
 	printf("\t\t    _________         _________ 			\n");	
 	printf("\t\t   /         \\       /         \\ 			\n");	
@@ -963,14 +991,20 @@ void welcomeArt(void)
 	printf("\t			    Press Any Key To Continue...	\n");			
 	printf("\n");
 	
-	waitForAnyKey();
+	waitForAnyKey(); //입력대기
 	return;
 }
-
+/**
+* 조작법 출력 함수.
+* 조작법 출력 후, waitForAnyKey()를 이용해 입력대기
+**/
 void controls(void)
 {
+	//커서 좌표
 	int x = 10, y = 5;
-	clrscr(); //clear the console
+	clrscr(); //전체화면 지움
+
+	//gotoxy()를 이용해 커서를 이동하며 조작법 출력
 	gotoxy(x,y++);
 	printf("Controls\n");
 	gotoxy(x++,y++);
@@ -989,7 +1023,7 @@ void controls(void)
 	gotoxy(x,y++);
 	gotoxy(x,y++);
 	printf("Press any key to continue...");
-	waitForAnyKey();
+	waitForAnyKey(); //입력대기
 	return;
 }
 
@@ -1015,16 +1049,21 @@ void exitYN(void)
 	}
 	return; //n인 경우 : 함수 탈출, 기존 작업 계속 수행.
 }
-
+/**
+* 메인메뉴 화면 출력 후, 메뉴를 고르는 함수.
+*
+* @return selected : 각 메뉴에 할당된 값
+**/
 int mainMenu(void)
 {
-	int x = 10, y = 5;
-	int yStart = y;
+	int x = 10, y = 5; //x, y에 커서의 이동 위치 저장
+	int yStart = y; //초기에 커서를 나타낼 위치를 위한 값으로 menuSelector()에 파라미터로 필요한 값
 	
-	int selected;
+	int selected; //각 메뉴에 할당된 값
 	
-	clrscr(); //clear the console
-	//Might be better with arrays of strings???
+	clrscr(); //전체화면 지움
+
+	//gotoxy()를 이용해 커서 이동하며 메인메뉴 출력
 	gotoxy(x,y++);
 	printf("New Game\n");
 	gotoxy(x,y++);
@@ -1034,37 +1073,43 @@ int mainMenu(void)
 	gotoxy(x,y++);
 	printf("Exit\n");
 	gotoxy(x,y++);
-
+	
+	//menuSelector()를 이용해 각 메뉴에 대한 값을 반환하여 selected에 저장
 	selected = menuSelector(x, y, yStart);
 
 	return(selected);
 }
 
-//**************END MENU STUFF**************//
+/**
+* main함수.
+* 초기화면 출력 후, mainMenu()를 이용해 반환되는 값에 따라 각각 함수 실행
+*
+* @return 0
+**/
 
-int main() //Need to fix this up
+int main() 
 {
 
-	welcomeArt();
+	welcomeArt(); //초기화면 출력
 	
 	do
 	{	
-		switch(mainMenu())
+		switch(mainMenu()) //각 메뉴에 대한 값 반환
 		{
-			case 0:
+			case 0: //게임 시작
 				loadGame();
 				break;
-			case 1:
+			case 1: //게임 기록 확인
 				displayHighScores();
 				break;	
-			case 2:
+			case 2: //조작법 확인
 				controls();
 				break;		
-			case 3:
+			case 3: //게임종료 확인
 				exitYN(); 
 				break;			
 		}		
-	} while(1);	//
+	} while(1);
 	
 	return(0);
 }
