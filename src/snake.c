@@ -655,7 +655,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 	//CLOCKS_PER_SEC-(n-1)*(CLOCKS_PER_SEC/10)
 	int waitMili = CLOCKS_PER_SEC-(speed)*(CLOCKS_PER_SEC/10);	// 현재 게임 속도에 맞는 대기 시간 설정 (대기 시간 : 1초 - 게임속도(단계) * 0.1초)
 	int tempScore = 10*speed; // 속도 증가 시점에서 현재 스코어와 비교할 기준값을 위한 임시 변수. 초기값 : 10 * 속도.
-	int oldDirection = 0; // 직전 방향값을 저장하기 위한 변수
+	int oldDirection // 직전 방향값을 저장하기 위한 변수
 	int canChangeDirection = 1; // 방향 전환이 가능한 상태인지 저장 (0: 불가능, 1: 가능)
 	//int seconds = 1;
 
@@ -747,6 +747,60 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 		displayHighScores(); // 랭킹 출력.
 	}
 	
+	return;
+}
+
+
+void loadEnviroment(int consoleWidth, int consoleHeight)//This can be done in a better way... FIX ME!!!! Also i think it doesn't work properly in ubuntu <- Fixed
+{
+	int i;
+	int x = 1, y = 1;
+	int rectangleHeight = consoleHeight - 4;
+	clrscr(); //clear the console
+	
+	gotoxy(x,y); //Top left corner
+	
+	for (; y < rectangleHeight; y++)
+	{
+		gotoxy(x, y); //Left Wall 
+		printf("%c",WALL);
+		
+		gotoxy(consoleWidth, y); //Right Wall
+		printf("%c",WALL);
+	}
+	
+	y = 1;
+	for (; x < consoleWidth+1; x++)
+	{
+		gotoxy(x, y); //Left Wall 
+		printf("%c",WALL);
+		
+		gotoxy(x, rectangleHeight); //Right Wall
+		printf("%c",WALL);
+	}
+	
+/*
+	for (i = 0; i < 80; i++)
+	{
+		printf("%c",WALL);
+	}
+	
+	for (i = 0; i < 17; i++)
+	{
+		printf("%c\n",WALL);
+	}
+
+	for (i = 0; i < 21; i++)
+	{
+		printf("%c\n",WALL);
+		gotoxy(80,i);
+	}
+	
+	for (i = 0; i < 81; i++)
+	{
+		printf("%c",WALL);
+	}	
+*/	
 	return;
 }
 
