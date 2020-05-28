@@ -44,14 +44,26 @@ Although this program may compile/ run in Cygwin it runs slowly.
 	const char FOOD = (char)254;
 	const char BLANK = ' ';
 
+
+	/**
+	* 커서의 위치를 화면 왼쪽상단을 기준으로 x,y 만큼 이동
+	* 
+	* @param int x : x좌표
+	* @param int y : y좌표
+	**/
 	void gotoxy(int x,int y)
 	{
 		COORD Pos;
 		Pos.X = (short)x;
 		Pos.Y = (short)y;
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+		//커서값을 이동시키는 함수
+		//getStdHandle() 파라미터로 넘겨준 값의 핸들값을 반환해준다.
 	}
-
+	
+	/**
+	* 콘솔화면의 내용을 모두 지운다.
+	**/
 	void clrscr()
 	{
 		system("cls");
@@ -139,31 +151,51 @@ Although this program may compile/ run in Cygwin it runs slowly.
 #define EXIT_BUTTON 27 //ESC
 #define PAUSE_BUTTON 112 //P
 
+
+/**
+* 키보드 입력을 기다리고 입력된 값을 반환한다.
+*
+* @return char : 키보드로 입력된 값
+**/
 char waitForAnyKey(void)
 {
-	int pressed;
+	int pressed;// 키보드의 입력 값을 나타내는 변수
 	
 	while(!_kbhit());
-	
-	pressed = _getch();
+	// _kbhit()함수는 키보드 입력이 있음 1, 없음 0을 반환한다.
+	// 키보드 입력이 있을때까지 무한히 반복해 입력을 기다린다.
+
+	pressed = _getch();//입력된 값으로 pressed 초기화
 	
 	return((char)pressed);
 }
 
+/**
+* 뱀의 속도를 선택하는 화면 표시와 뱀의 속도를 입력 받아 반환한다.
+*
+* @return int : 뱀의 이동속도
+**/
 int getGameSpeed(void)
 {
-	int speed;
-	clrscr();
+	int speed; //뱀의 이동속도를 뜻하는 변수
+	clrscr(); //화면 클리어
 	
 	do
 	{
-		gotoxy(10,5);
+		gotoxy(10,5); //커서 이동후 문구 출력
 		printf("Select The game speed between 1 and 9.");
 		speed = waitForAnyKey()-48;
+		//waitForAnyKey()함수의 반환값이 char형이라 48을 빼야 숫자에 해당함
 	} while(speed < 1 || speed > 9);
+	//뱀의 이동속도 speed변수의 값이 1~9사이인지 판별하고 아닐시 반복 
 	return(speed);
 }
 
+/**
+* 입력이 있을 때까지 게임을 pause 시킬 때 사용되는 함수이다.
+* 단순히 하나의 입력이 들어올때까지 무한히 반복문이 돌면서 
+* 게임이 몀추는 듯한 효과를 준다.
+**/
 void pauseMenu(void)
 {
 	gotoxy(28,23);
@@ -176,16 +208,26 @@ void pauseMenu(void)
 	return;
 }
 
-//This function checks if a key has pressed, then checks if its any of the arrow keys/ p/esc key. It changes direction acording to the key pressed.
+
+/**
+* 방향키와 ecs,p 키가 눌렸나 검사하고 키에 해당하는 int값을 반환하는 함수이다.
+* 
+* @param int direction : 뱀의 기존 이동방향
+* @return int : 뱀의 이동방향을 뜻하는 키보드로부터 입력된 값
+**/
 int checkKeysPressed(int direction)
 {
 	int pressed;
 	
-	if(_kbhit()) //If a key has been pressed
+	if(_kbhit()) //키보드에 입력이 있었는지를 검사함.
 	{
 		pressed=_getch();
-		if (direction != pressed)
+		//getch는 입력 버퍼를 사용하지 않아 화면이 멈추지 않음.
+		if (direction != pressed) //입력이 기존의 뱀의 이동 방향과 동일한지 검사
 		{
+			//각 뱀의 진행반향과 입력 방향이 반대가 아닌지 검사함(반대로 바로 방향바꾸는 것을 막기위해)
+			//반대방향이 아니라면 입력을 pressed에 저장하고 리턴함.
+			//esc, p 일 경우에는 pauseMenu()함수를 호출하여 화면을 멈춤
 			if(pressed == DOWN_ARROW && direction != UP_ARROW)
 				direction = pressed;
 			else if (pressed == UP_ARROW && direction != DOWN_ARROW)
@@ -201,20 +243,40 @@ int checkKeysPressed(int direction)
 	return(direction);
 }
 
-//Cycles around checking if the x y coordinates ='s the snake coordinates as one of this parts
-//One thing to note, a snake of length 4 cannot collide with itself, therefore there is no need to call this function when the snakes length is <= 4
+
+/**
+*파라미터로 넘어온 x,y좌표에 해당하는 값이 뱀의 몸통만 혹은 머리, 몸통 모두와 충동하는지 검사하는 함수이다. 
+*
+* @param int x : x좌표
+* @param int y : y좌표
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] : y좌표
+* @param int snakeLength : 뱀의 길이
+* @param int detect : 0일 경우 뱀의 머리, 몸통 전체에 대해 충돌을 검사함, 
+*					  1일 경우 뱀의 몸통과 충돌을 검사함 
+* @return 0 : 뱀의 머리 혹은 몸통과 충돌하지 않음 ,1 : 뱀의 머리 혹은 몸통과 충돌함
+**/
 int collisionSnake (int x, int y, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int detect)
 {
 	int i;
-	for (i = detect; i < snakeLength; i++) //Checks if the snake collided with itself
+	for (i = detect; i < snakeLength; i++) //detech가 0이면 머리포함 충돌 검사, 1이면 몸통만 충돌검사
 	{
-		if ( x == snakeXY[0][i] && y == snakeXY[1][i])
+		if ( x == snakeXY[0][i] && y == snakeXY[1][i]) // 충돌하였는지 검사
 			return(1);
 	}
 	return(0);
 }
 
-//Generates food & Makes sure the food doesn't appear on top of the snake <- This sometimes causes a lag issue!!! Not too much of a problem tho
+/**
+* 파라미터로 넘어온 x,y좌표에 해당하는 값이 뱀의 몸통만 혹은 머리, 몸통 모두와 충동하는지 검사하는 함수이다.
+*
+* @param int foodXY[] : 먹이의 x,y좌표를 가진 배열 foodXY[0]:x좌표, foodXY[1]:y좌표 
+* @param int width : 게임 판 넓이
+* @param int height : 게임 판 높이
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀 머리, 몸통 위치 배열
+* @param int snakeLength : 뱀의 길이
+* @todo : 리턴값을 사용하지 않음. void형으로 변경 요망
+* @todo : 다른 함수들은 넘어온 값을 consolewidth, consoleheight으로 받는데, 여기서는 width,height으로 받음 변경요망
+**/
 int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
 {	
 	do
@@ -223,8 +285,9 @@ int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_
 		foodXY[0] = rand() % (width-2) + 2;
 		srand ( (unsigned int)time(NULL) );
 		foodXY[1] = rand() % (height-6) + 2;
-	} while (collisionSnake(foodXY[0], foodXY[1], snakeXY, snakeLength, 0)); //This should prevent the "Food" from being created on top of the snake. - However the food has a chance to be created ontop of the snake, in which case the snake should eat it...
-
+	}  while(collisionSnake(foodXY[0], foodXY[1], snakeXY, snakeLength, 0));
+	//뱀 머리,몸통 위에 먹이가 생성될 시, 먹이를 먹은것으로 되기 때문에 뱀의 위치와 다른 위치에 먹이가 생성될때까지 반복한다. 
+	
 	gotoxy(foodXY[0] ,foodXY[1]);
 	printf("%c", FOOD);
 	
@@ -329,13 +392,26 @@ int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[])
 	return(0);
 }
 
-int collisionDetection(int snakeXY[][SNAKE_ARRAY_SIZE], int consoleWidth, int consoleHeight, int snakeLength ) //Need to Clean this up a bit
+
+
+/**
+* 뱀 머리가 벽 혹은 몸통에 충돌했는지 검사하여 결과값을 반환한다.
+*
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀 머리, 몸통 위치 배열
+* @param int consoleWidth : 게임 판 넓이
+* @param int consoleHeight : 게임 판 높이
+* @param int snakeLength : 뱀의 길이
+* @return 0 : 뱀 머리가 벽 혹은 몸통에 충돌하지 않음, 1 : 뱀의 머리가 벽 혹은 몸통과 충돌함
+**/
+int collisionDetection(int snakeXY[][SNAKE_ARRAY_SIZE], int consoleWidth, int consoleHeight, int snakeLength )
 {
-	int colision = 0;
-	if ((snakeXY[0][0] == 1) || (snakeXY[1][0] == 1) || (snakeXY[0][0] == consoleWidth) || (snakeXY[1][0] == consoleHeight - 4)) //Checks if the snake collided wit the wall or it's self
+	int colision = 0; //충돌했는 지를 나타내는 변수 collision 0(충돌하지 않음)으로 초기화
+
+	//뱀 머리가 벽 혹은 몸통과 충돌했는지 검사, 부딪치면 colision을 1로 초기화
+	if ((snakeXY[0][0] == 1) || (snakeXY[1][0] == 1) || (snakeXY[0][0] == consoleWidth) || (snakeXY[1][0] == consoleHeight - 4))
 		colision = 1;
 	else
-		if (collisionSnake(snakeXY[0][0], snakeXY[1][0], snakeXY, snakeLength, 1)) //If the snake collided with the wall, theres no point in checking if it collided with itself.
+		if (collisionSnake(snakeXY[0][0], snakeXY[1][0], snakeXY, snakeLength, 1))
 			colision = 1;
 			
 	return(colision);
@@ -670,7 +746,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 	//CLOCKS_PER_SEC-(n-1)*(CLOCKS_PER_SEC/10)
 	int waitMili = CLOCKS_PER_SEC-(speed)*(CLOCKS_PER_SEC/10);	// 현재 게임 속도에 맞는 대기 시간 설정 (대기 시간 : 1초 - 게임속도(단계) * 0.1초)
 	int tempScore = 10*speed; // 속도 증가 시점에서 현재 스코어와 비교할 기준값을 위한 임시 변수. 초기값 : 10 * 속도.
-	int oldDirection // 직전 방향값을 저장하기 위한 변수
+	int oldDirection = 0; // 직전 방향값을 저장하기 위한 변수
 	int canChangeDirection = 1; // 방향 전환이 가능한 상태인지 저장 (0: 불가능, 1: 가능)
 	//int seconds = 1;
 
@@ -765,106 +841,77 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 	return;
 }
 
-
-void loadEnviroment(int consoleWidth, int consoleHeight)//This can be done in a better way... FIX ME!!!! Also i think it doesn't work properly in ubuntu <- Fixed
+/**
+* 게임 시작 후 화면을 지우고 게임범위의 상하, 좌우 벽을 출력한다.
+*
+* @param int consoleWidth : 게임 판 넓이
+* @param int consoleHeight : 게임 판 높이
+**/
+void loadEnviroment(int consoleWidth, int consoleHeight)
 {
 	int i;
 	int x = 1, y = 1;
-	int rectangleHeight = consoleHeight - 4;
-	clrscr(); //clear the console
+	int rectangleHeight = consoleHeight - 4; //y의 범위 1~20로 설정함
+	clrscr(); //화면을 지움
 	
-	gotoxy(x,y); //Top left corner
+	gotoxy(x,y);
 	
+	//왼쪽 오른쪽 벽 출력
 	for (; y < rectangleHeight; y++)
 	{
-		gotoxy(x, y); //Left Wall 
+		gotoxy(x, y); //왼쪽벽 시작부분으로 커서이동
 		printf("%c",WALL);
 		
-		gotoxy(consoleWidth, y); //Right Wall
+		gotoxy(consoleWidth, y); //오른쪽벽 시작부분으로 커서이동
 		printf("%c",WALL);
 	}
 	
 	y = 1;
+	//상단 하단 벽 출력
 	for (; x < consoleWidth+1; x++)
 	{
-		gotoxy(x, y); //Left Wall 
+		gotoxy(x, y); //상단벽 시작부분으로 커서이동
 		printf("%c",WALL);
 		
-		gotoxy(x, rectangleHeight); //Right Wall
+		gotoxy(x, rectangleHeight); //하단벽 시작부분으로 커서이동
 		printf("%c",WALL);
 	}
 	
-/*
-	for (i = 0; i < 80; i++)
-	{
-		printf("%c",WALL);
-	}
-	
-	for (i = 0; i < 17; i++)
-	{
-		printf("%c\n",WALL);
-	}
-
-	for (i = 0; i < 21; i++)
-	{
-		printf("%c\n",WALL);
-		gotoxy(80,i);
-	}
-	
-	for (i = 0; i < 81; i++)
-	{
-		printf("%c",WALL);
-	}	
-*/	
 	return;
 }
 
+
+/**
+* 게임시작 시 뱀을 화면에 그린다.
+*
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀 머리, 몸통 위치 배열
+* @param int snakeLength : 뱀의 길이
+**/
 void loadSnake(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
 {
 	int i;
-	/*
-	First off, The snake doesn't actually have enough XY coordinates (only 1 - the starting location), thus we use
-	these XY coordinates to "create" the other coordinates. For this we can actually use the function used to move the snake.
-	This helps create a "whole" snake instead of one "dot", when someone starts a game.
-	*/
-	//moveSnakeArray(snakeXY, snakeLength); //One thing to note ATM, the snake starts of one coordinate to whatever direction it's pointing...
 	
-	//This should print out a snake :P
-	for (i = 0; i < snakeLength; i++)
-	{
+	//뱀의머리부터 커서를 이동해가며 화면에 출력
+	for (i = 0; i < snakeLength; i++){
 		gotoxy(snakeXY[0][i], snakeXY[1][i]);
-		printf("%c", SNAKE_BODY); //Meh, at some point I should make it so the snake starts off with a head...
+		printf("%c", SNAKE_BODY);
 	}
 	
 	return;
 }
 
-/* NOTE, This function will only work if the snakes starting direction is left!!!! 
-Well it will work, but the results wont be the ones expected.. I need to fix this at some point.. */
+
+/**
+* 뱀 몸통 위치를 초기화한다.
+*
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀 머리, 몸통 위치 배열
+* @param int snakeLength : 뱀의 길이
+**/
 void prepairSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
 {
 	int i, x;
 	int snakeX = snakeXY[0][0];
 	int snakeY = snakeXY[1][0];
-	
-	// this is used in the function move.. should maybe create a function for it...
-	/*switch(direction)
-	{
-		case DOWN_ARROW:
-			snakeXY[1][0]++;
-			break;
-		case RIGHT_ARROW:
-			snakeXY[0][0]++;
-			break;
-		case UP_ARROW:
-			snakeXY[1][0]--;
-			break;
-		case LEFT_ARROW:
-			snakeXY[0][0]--;
-			break;			
-	}
-	*/
-	
 	
 	for(i = 1; i <= snakeLength; i++)
 	{
@@ -1039,7 +1086,7 @@ void exitYN(void)
 	do //무조건 한번은 실행
 	{
 		pressed = waitForAnyKey(); // waitForAnyKey() Func로부터 키 입력받아 pressed에.
-		pressed = tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
+		pressed = (char)tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
 	} while (!(pressed == 'y' || pressed == 'n')); // y또는 n값이 아닌 경우 계속 반복.
 	
 	if (pressed == 'y') // y값인 경우 (=사용자가 종료 선택)
