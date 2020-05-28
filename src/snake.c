@@ -364,33 +364,36 @@ void refreshInfoBar(int score, int speed)
 	return;
 }
 
-//**************HIGHSCORE STUFF**************//
-
-//-> The highscores system seriously needs to be clean. There are some bugs, entering a name etc
-
+/**
+ * 최고점수 화면 출력
+**/
 void createHighScores(void)
 {
 	FILE *file; 
 	int i;
 
-	fopen_s(&file,"highscores.txt","w+");
+	fopen_s(&file,"highscores.txt","w+"); //highscores.txt 파일을 생성함. 파일이 이미 있으면 그 파일을 지우고 생성
 	
-	if(file == NULL)
+	if(file == NULL)  // 파일이 존재하지 않을 경우
 	{
 		printf("FAILED TO CREATE HIGHSCORES!!! EXITING!");
-		exit(0);	
+		exit(0);    //에러 메시지 출력 후 종료
 	}
 	
-	for(i = 0; i < 5; i++)
+	for(i = 0; i < 5; i++) // 역대 최고 점수를 출력
 	{
 		fprintf(file,"%d",i+1);
 		fprintf(file,"%s","\t0\t\t\tEMPTY\n");
 	}	
 	
-	fclose(file);
+	fclose(file);	//파일을 닫음
 	return;
 }
-
+/**
+ * 기록된 최고 점수 중 가장 낮은 점수를 불러옴
+ *
+ * @return lowestScore : 기록 중에서 최저 점수
+ * */
 int getLowestScore()
 {
 	FILE *fp;
@@ -398,42 +401,47 @@ int getLowestScore()
 	int lowestScore = 0;
 	int i;
 	int intLength;
-	fopen_s(&fp,"highscores.txt", "r");
-	rewind(fp);
-	if((fp == NULL)
+	fopen_s(&fp,"highscores.txt", "r"); //highscores.txt를 읽기 모드로 열기
+	rewind(fp);	//위치 지정자를 맨 처음으로
+	if((fp == NULL)   //파일이 존재하지 않을 경우
 	{
-		//Create the file, then try open it again.. if it fails this time exit.
-		createHighScores(); //This should create a highscores file (If there isn't one)
-		if(fp == NULL)
-			exit(1);
+		createHighScores();   // createHighScores()함수에서 파일 생성
+		if(fp == NULL)	 //파일이 존재하지 않으면
+			exit(1);   //종료
 	}
 
-	while(!feof(fp))
+	while(!feof(fp))  //highscores.txt의 마지막 줄을 가져오기 위한 while문
 	{
-		fgets(str, sizeof(str), fp);  
+		fgets(str, sizeof(str), fp);   //str 변수에 fp의 문장 한 줄을 복사
 	}
-	fclose(fp);	
+	fclose(fp);  //파일 닫기
 	
 	i=0;
 	
-	//Gets the Int length
-	while(str[2+i] != '\t')
+	while(str[2+i] != '\t')	 //문자열에서 점수의 자릿수 구하기
 	{
 		i++;
 	}
 	
 	intLength = i;
 	
-	//Gets converts the string to int
-	for(i=0;i < intLength; i++)
+	for(i=0;i < intLength; i++)  //문자열에서 점수를 추출
 	{
 		lowestScore = lowestScore + ((int)str[2+i] - 48) * (int)pow(10,intLength-i-1);
 	}
 
-	return(lowestScore);
+	return(lowestScore);	 //기록 중에서 최저 점수 반환
 }
 
-void inputScore(int score) //This seriously needs to be cleaned up
+/**
+ * 최고 점수 기록 함수
+ * 게임이 끝났을 때 결과 점수가
+ * 기록된 최고 점수 기록 중
+ * 가장 낮은 점수보다 높을 때 호출
+ *
+ * @param score : 게임 종료 점수
+ **/
+void inputScore(int score)
 {
 	FILE *fp;
 	char* str = (char*)malloc(sizeof(char)*128);
@@ -449,25 +457,25 @@ void inputScore(int score) //This seriously needs to be cleaned up
 	
 	int entered = 0;
 	
-	clrscr(); //clear the console
+	clrscr();    //화면 초기화
 	
-	fopen_s(&fp, "highscore.txt", "r");
-	if(fp == NULL)
+	fopen_s(&fp, "highscore.txt", "r");  //highscore.txt를 읽기 모드로 열음
+	if(fp == NULL)	 //파일이 없으면 종료
 	    exit(1);
-	gotoxy(10,5);
+	gotoxy(10,5);	//커서 이동
 	printf("Your Score made it into the top 5!!!");
-	gotoxy(10,6);
+	gotoxy(10,6);	//커서 이동
 	printf("Please enter your name: ");
-	gets_s(name,sizeof(name));
+	gets_s(name,sizeof(name));  //기록 할 name을 입력 받음
 	
 	x = 0;
-	while(!feof(fp))
+	while(!feof(fp))    //파일 내용이 끝날 때 까지 반복
 	{
-		fgets(str, 126, fp);  //Gets a line of text
+		fgets(str, 126, fp);    //문장을 파일에서 한줄씩 가져와 문자열 str에 넣음
 		
 		i=0;
 		
-		//Gets the Int length
+		//저장된 점수의 자릿수 구하기
 		while(str[2+i] != '\t')
 		{
 			i++;
@@ -476,99 +484,91 @@ void inputScore(int score) //This seriously needs to be cleaned up
 		s = i;
 		intLength = i;
 		i=0;
-		while(str[5+s] != '\n')
+		while(str[5+s] != '\n')	 //문자열 str에서 name을 가져오기 위한 반복문
 		{
-			//printf("%c",str[5+s]);
 			highScoreName[i] = str[5+s];
 			s++;
 			i++;
 		}
-		//printf("\n");
-		
+				
 		fScore = 0;
-		//Gets converts the string to int
-		for(i=0;i < intLength; i++)
+		for(i=0;i < intLength; i++) //문자열 str에서 점수를 가져오기 위한 반복문
 		{
-			//printf("%c", str[2+i]);
-			fScore = fScore + ((int)str[2+i] - 48) * (int)pow(10,intLength-i-1);
+		    fScore = fScore + ((int)str[2+i] - 48) * (int)pow(10,intLength-i-1);
 		}
 		
-		if(score >= fScore && entered != 1)
+		if(score >= fScore && entered != 1) //저장 되어 있는 점수보다 새로운 점수가 더 크거나 같으면서 등록된 적이 없을때
 		{
-			scores[x] = score;
-			strcpy_s(highScoreNames[x], sizeof(highScoreNames[x]),name);
+			scores[x] = score;  //새로운 x번째 배열에 저장
+			strcpy_s(highScoreNames[x], sizeof(highScoreNames[x]),name);	//입력된 이름을 기록 x번째 배열에 저장
 			
-			//printf("%d",x+1);
-			//printf("\t%d\t\t\t%s\n",score, name);		
-			x++;
-			entered = 1;
+			x++; // 5위까지 카운트 하기 위한 변수 증가
+			entered = 1; //새로운 점를 저장여부 flag
 		}
 		
-		//printf("%d",x+1);
-		//printf("\t%d\t\t\t%s\n",fScore, highScoreName);
-		//strcpy(text, text+"%d\t%d\t\t\t%s\n");
-		strcpy_s(highScoreNames[x],sizeof(highScoreNames[x]), highScoreName);
-		scores[x] = fScore;
+		strcpy_s(highScoreNames[x],sizeof(highScoreNames[x]), highScoreName);	//원래 기록의 이름을 기록 x번째 배열에 저장
+		scores[x] = fScore;	//기존 기록을 x번째 배열에 저장
 		
-		//highScoreName = "";
-		for(y=0;y<20;y++)
+		for(y=0;y<20;y++)   //문자열 변수 초기화
 		{
 			highScoreName[y] = '\0';
 		}
 		
-		x++;
-		if(x >= 5)
+		x++;	//5위까지 카운트 하기 위한 변수 증가
+		if(x >= 5)  //기록 5개 기록시 while문 벗어남
 			break;
 	}
 	
-	fclose(fp);
+	fclose(fp); //highscores.txt를 닫음
 	
-	fopen_s(&fp, "highscores.txt", "w+");
+	fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
 	
 	for(i=0;i<5;i++)
 	{
-		//printf("%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);
-	    if(!fp == '0')	
+		//파일에 기록 입력
+		if(!fp == '0')	//highscores.txt 존재 확인
 		    fprintf(fp, "%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);	
 	}
 
-	if(!fp == '0')
-	    fclose(fp);
+	if(!fp == '0')	 //highscores.txt 존재 확인
+	    fclose(fp);	 //highscores.txt 닫음
 	
 	return;
 }
+/**
+ * 최고 점수 기록 화면을 출력하는 함수 호출
+ * */
 
-void displayHighScores(void) //NEED TO CHECK THIS CODE!!!
+void displayHighScores(void) 
 {
 	FILE *fp;
 	char* str = (char*)malloc(sizeof(char)*128);
 	int y = 5;
 	
-	clrscr(); //clear the console
-	fopen_s(&fp, "highscores.txt", "r");
+	clrscr();  //화면 초기화
+	fopen_s(&fp, "highscores.txt", "r"); //highscores.txt 파일을 읽기 모드로 열기
 
-	if(fp == NULL) {
-		//Create the file, then try open it again.. if it fails this time exit.
-		createHighScores(); //This should create a highscores file (If there isn't one)
-		if(!fopen_s(&fp, "highscores.txt", "r"))
+	if(fp == NULL) {    //파일이 없는 경우 파일을 새로 생성
+		createHighScores(); //최고 점수 기록 화면을 출력하는 함수 호출
+		if(!fopen_s(&fp, "highscores.txt", "r"))    //highscores.txt 파일을 여는데 실패하면 프로그램 종료
 			exit(1);
 	}
 	
-	gotoxy(10,y++);
+	gotoxy(10,y++);	//출력을 위한 커서 이동
 	printf("High Scores");	
 	gotoxy(10,y++);
 	printf("Rank\tScore\t\t\tName");
-	while(!feof(fp)) {
+	while(!feof(fp)) { //파일이 끝날 때까지 파일의 내용 한 줄 씩 출력하기 위한 while문
 		gotoxy(10,y++);
-		if(fgets(str, 126, fp)) 
+		if(fgets(str, 126, fp)) //highscores.txt 파일 한 줄을 가져옴
 			printf("%s", str);
 	}
 
-	fclose(fp);	//Close the file
+	fclose(fp); 	//파일 닫기
 	gotoxy(10,y++);
 	
 	printf("Press any key to continue...");
-	waitForAnyKey();	
+	waitForAnyKey();    //아무 키가 입력 되길 기다림
 	return;
 }
 
