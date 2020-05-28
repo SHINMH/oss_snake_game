@@ -747,7 +747,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 	//CLOCKS_PER_SEC-(n-1)*(CLOCKS_PER_SEC/10)
 	int waitMili = CLOCKS_PER_SEC-(speed)*(CLOCKS_PER_SEC/10);	// 현재 게임 속도에 맞는 대기 시간 설정 (대기 시간 : 1초 - 게임속도(단계) * 0.1초)
 	int tempScore = 10*speed; // 속도 증가 시점에서 현재 스코어와 비교할 기준값을 위한 임시 변수. 초기값 : 10 * 속도.
-	int oldDirection // 직전 방향값을 저장하기 위한 변수
+	int oldDirection = 0; // 직전 방향값을 저장하기 위한 변수
 	int canChangeDirection = 1; // 방향 전환이 가능한 상태인지 저장 (0: 불가능, 1: 가능)
 	//int seconds = 1;
 
