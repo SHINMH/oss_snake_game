@@ -850,7 +850,6 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 **/
 void loadEnviroment(int consoleWidth, int consoleHeight)
 {
-	int i;
 	int x = 1, y = 1;
 	int rectangleHeight = consoleHeight - 4; //y의 범위 1~20로 설정함
 	clrscr(); //화면을 지움
@@ -910,7 +909,7 @@ void loadSnake(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
 **/
 void prepairSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
 {
-	int i, x;
+	int i;
 	int snakeX = snakeXY[0][0];
 	int snakeY = snakeXY[1][0];
 	
