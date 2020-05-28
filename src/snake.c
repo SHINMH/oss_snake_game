@@ -29,6 +29,7 @@ Although this program may compile/ run in Cygwin it runs slowly.
 	//Windows Libraries
 	#include <conio.h>
 	#include <Windows.h>
+	#include <stdlib.h>
 	//Windows Constants
 	//Controls
 	#define UP_ARROW 72
