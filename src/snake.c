@@ -503,7 +503,7 @@ int getLowestScore()
 	
 	for(i=0;i < intLength; i++)  //문자열에서 점수를 추출
 	{
-		lowestScore = lowestScore + ((int)str[2+i] - 48) * (int)pow(10,intLength-i-1);
+		lowestScore = lowestScore + ((int)str[2+i] - 48) * (int)pow(10,(double)intLength-i-1);
 	}
 
 	return(lowestScore);	 //기록 중에서 최저 점수 반환
@@ -570,7 +570,7 @@ void inputScore(int score)
 		fScore = 0;
 		for(i=0;i < intLength; i++) //문자열 str에서 점수를 가져오기 위한 반복문
 		{
-		    fScore = fScore + ((int)str[2+i] - 48) * (int)pow(10,intLength-i-1);
+		    fScore = fScore + ((int)str[2+i] - 48) * (int)pow(10,(double)intLength-i-1);
 		}
 		
 		if(score >= fScore && entered != 1) //저장 되어 있는 점수보다 새로운 점수가 더 크거나 같으면서 등록된 적이 없을때
