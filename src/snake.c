@@ -22,6 +22,7 @@ Although this program may compile/ run in Cygwin it runs slowly.
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
+#include <stdlib.h>
 
 #define SNAKE_ARRAY_SIZE 310
 
@@ -72,7 +73,6 @@ Although this program may compile/ run in Cygwin it runs slowly.
 	
 #else
 	//Linux Libraries
-	#include <stdlib.h>
 	#include <termios.h>
 	#include <unistd.h>
 	#include <fcntl.h>
