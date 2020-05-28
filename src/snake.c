@@ -479,7 +479,7 @@ int getLowestScore()
 	int intLength;
 	fopen_s(&fp,"highscores.txt", "r"); //highscores.txt를 읽기 모드로 열기
 	rewind(fp);	//위치 지정자를 맨 처음으로
-	if((fp == NULL)   //파일이 존재하지 않을 경우
+	if(fp == NULL)   //파일이 존재하지 않을 경우
 	{
 		createHighScores();   // createHighScores()함수에서 파일 생성
 		if(fp == NULL)	 //파일이 존재하지 않으면
