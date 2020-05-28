@@ -1087,7 +1087,7 @@ void exitYN(void)
 	do //무조건 한번은 실행
 	{
 		pressed = waitForAnyKey(); // waitForAnyKey() Func로부터 키 입력받아 pressed에.
-		pressed = tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
+		pressed = (char)tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
 	} while (!(pressed == 'y' || pressed == 'n')); // y또는 n값이 아닌 경우 계속 반복.
 	
 	if (pressed == 'y') // y값인 경우 (=사용자가 종료 선택)
