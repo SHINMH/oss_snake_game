@@ -728,16 +728,25 @@ void gameOverScreen(void)
 	return;
 }
 
+/**
+ * 'C'키를 눌렀을 때 뱀의 길이를 절반으로 줄여줌.
+ *
+ * @param int snakeXY[][SNAKE_ARRAY_SIZE] 플레이어의 X, Y 좌표값.
+ * @param int snakeLength 뱀의 길이
+ *
+ * return snakeLength 변경된 뱀의 길이
+ * */
+
 int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
 	int x, y;
 
-	for (int i = snakeLength - 1; i >= snakeLength / 2; i--) {
-		gotoxy(snakeXY[0][i], snakeXY[1][i]);
-		printf("%c", BLANK);
+	for (int i = snakeLength - 1; i >= snakeLength / 2; i--) { //잘린 뱀의 꼬리를 구하는 for문
+		gotoxy(snakeXY[0][i], snakeXY[1][i]); //잘린 꼬리의 위치로 이동 후,
+		printf("%c", BLANK); //공백을 출력하여 잘린 꼬리를 지움.
 	}
-	snakeLength /= 2;
+	snakeLength /= 2; //길이를 절반으로 줄임.
 
-	return snakeLength;
+	return snakeLength; //변경된 snakeLength 를 반환.
 }
 
 /**
@@ -779,12 +788,12 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 		
 		if(oldDirection != direction) // 직전 방향과 다른 경우
 			canChangeDirection = 0; //방향 전환이 불가능하도록 설정. (snake가 스스로 충돌하는 것을 방지)
-		else if (direction == CUT_BUTTON) {
-		    if(snakeLength > 8) {
-			score /= 2;    
-			snakeLength = cutTail(snakeXY, snakeLength);
+		else if (direction == CUT_BUTTON) { //'C'키가 눌리고,
+		    if(snakeLength > 8) { //뱀의 길이가 8보다 크면
+			score /= 2;    //점수를 절반으로 깎고
+			snakeLength = cutTail(snakeXY, snakeLength); //cuTail 함수를 호출하여 뱀의 길이를 절반으로 줄임/
 		    }
-		    direction = oldDirection;
+		    direction = oldDirection; //뱀의 이동방향은 전의 그대로
 		}
 
 		if(clock() >= endWait) // 대기 종료 시간이 지난 경우. (컴퓨터 속도에 따라 동작.)
@@ -793,8 +802,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 			//printf("%d - %d",clock() , endWait);
 			move(snakeXY, snakeLength, direction); // Snake를 지정한 방향으로 이동.
 			canChangeDirection = 1;  //다시 방향 전환이 가능하도록.
-
-				
+	    
 			if(eatFood(snakeXY, foodXY)) // 현재 좌표에 먹이가 존재한다면
 			{
 				generateFood( foodXY, consoleWidth, consoleHeight, snakeXY, snakeLength); //새로운 먹이 생성.
