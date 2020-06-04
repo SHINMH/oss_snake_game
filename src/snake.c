@@ -175,7 +175,7 @@ char waitForAnyKey(void)
 *
 * @return int : ë±€ì˜ ì´ë™ì†ë„
 **/
-int getGameSpeed(void)
+int getGameSpeed2(void)
 {
 	int speed; //ë±€ì˜ ì´ë™ì†ë„ë¥¼ ëœ»í•˜ëŠ” ë³€ìˆ˜
 	clrscr(); //í™”ë©´ í´ë¦¬ì–´
@@ -189,6 +189,39 @@ int getGameSpeed(void)
 	} while(speed < 1 || speed > 9);
 	//ë±€ì˜ ì´ë™ì†ë„ speedë³€ìˆ˜ì˜ ê°’ì´ 1~9ì‚¬ì´ì¸ì§€ íŒë³„í•˜ê³  ì•„ë‹ì‹œ ë°˜ë³µ 
 	return(speed);
+}
+
+//ÀÓ½Ã·Î getGameSpeed ÇÔ¼ö¿¡ »ç¿ëµÉ menuSelectorÇÔ¼ö¸¦ ¼±¾ğÇØÁÜ.
+//ÃßÈÄ¿¡ »èÁ¦ÇØ¾ßÇÔ.
+int menuSelector(int x, int y, int yStart);
+
+int getGameSpeed(void)
+{
+	int x = 10;
+	int y = 3;
+	int yStart = y+2;
+
+	int selected;
+
+	clrscr();
+	gotoxy(x,y++);
+	printf("Select The game speed between 1 and 9.");
+	gotoxy(x,y++);
+
+	gotoxy(x,y++);
+	printf("EASY\n");
+	gotoxy(x,y++);
+	printf("NORMAL\n");
+	gotoxy(x, y++);
+	printf("HARD\n");
+	gotoxy(x,y++);
+
+	selected = menuSelector(x,y,yStart);
+
+	selected = (selected+1) * 3;
+	//EASY -> 3, NOMAL -> 6, HARD -> 9
+	
+	return(selected);
 }
 
 /**
