@@ -675,7 +675,7 @@ void youWinScreen(void)
 	gotoxy(x,y++);	
 	
 	waitForAnyKey(); //사용자 키 입력이 있을때까지 대기.
-	clrscr(); //clear the console
+	clrscr(); //화면을 비워줌.
 	return;
 }
 
