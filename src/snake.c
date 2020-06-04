@@ -214,8 +214,9 @@ int getGameSpeed(void)
 	printf("NORMAL\n");
 	gotoxy(x, y++);
 	printf("HARD\n");
-	
-	selected = manuSelector(x,y,yStart);
+	gotoxy(x,y++);
+
+	selected = menuSelector(x,y,yStart);
 
 	selected = (selected+1) * 3;
 	//EASY -> 3, NOMAL -> 6, HARD -> 9
