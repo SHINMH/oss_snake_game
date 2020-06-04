@@ -1073,14 +1073,14 @@ void welcomeArt(void)
 
 	printf("\n");	
 	printf("\t\t    _________         _________ 			\n");	
-	printf("\t\t   /         \\       /         \\ 			\n");	
-	printf("\t\t  /  /~~~~~\\  \\     /  /~~~~~\\  \\ 			\n");	
+	printf("\t\t   /          )      /          ) 			\n");	
+	printf("\t\t  /  /~~~~~|  |     /  /~~~~~|  | 			\n");	
 	printf("\t\t  |  |     |  |     |  |     |  | 			\n");		
 	printf("\t\t  |  |     |  |     |  |     |  | 			\n");
-	printf("\t\t  |  |     |  |     |  |     |  |         /	\n");
-	printf("\t\t  |  |     |  |     |  |     |  |       //	\n");
-	printf("\t\t (o  o)    \\  \\_____/  /     \\  \\_____/ / 	\n");
-	printf("\t\t  \\__/      \\         /       \\        / 	\n");
+	printf("\t\t  |  |     |  |     |  |     |  |      /	\n");
+	printf("\t\t  |  |     |  |     |  |     |  |     //	\n");
+	printf("\t\t (o  o)    (  |_____/  /     (  |____/ / 	\n");
+	printf("\t\t  (__/      (         /       (        / 	\n");
 	printf("\t\t    |        ~~~~~~~~~         ~~~~~~~~ 		\n");
 	printf("\t\t    ^											\n");
 	printf("\t		Welcome To The Snake Game!			\n");
