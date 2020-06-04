@@ -774,6 +774,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 			oldDirection = direction; // 현재 방향을 oldDirection에 저장.
 
 			direction = checkKeysPressed(direction); //새 방향값을 받아 대입.
+			refreshInfoBar(score, speed);
 		}
 		
 		if(oldDirection != direction) // 직전 방향과 다른 경우
