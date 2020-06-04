@@ -779,7 +779,8 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 					speed++; // 게임 속도 증가.
 					tempScore = score; // 판단 기준값을 현재 스코어로 변경.
 
-					if(speed <= 9)//this needs to be fixed // 게임 속도가 9 이하인 경우
+					//게임 속도가 9 이하인 경우
+					if(speed <= 9) //TODO : 점검 필요
 						waitMili = waitMili - (CLOCKS_PER_SEC/10); // 대기 시간 단축 : 기존 대기시간 - 1/10초
 					else // 게임 속도가 9보다 큰 경우
 					{
@@ -800,7 +801,8 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 
 		if(snakeLength >= SNAKE_ARRAY_SIZE-5) // Snake의 길이가 (설정한 최대 길이 - 5) 이상인 경우 게임 승리. (배열 크기보다 길어질 경우 크래시 발생하므로.)
 		{
-			gameOver = 2;//You Win! <- doesn't seem to work - NEED TO FIX/TEST THIS : gameOver에 승리시를 뜻하는 코드 2 삽입. (while문 탈출 유도) => 동작하지 않는다함.
+			gameOver = 2; //gameOver에 승리시를 뜻하는 코드 2 삽입. (while문 탈출 유도) 
+			//TODO : 위 코드가 동작하지 않는 것으로 보인다고 함, 테스트 및 필요시 수정.
 			score+=1500; //승리시, 보너스 포인트 1500원 지급.
 		}
 		
