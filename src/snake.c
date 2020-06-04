@@ -175,7 +175,7 @@ char waitForAnyKey(void)
 *
 * @return int : 뱀의 이동속도
 **/
-int getGameSpeed(void)
+int getGameSpeed2(void)
 {
 	int speed; //뱀의 이동속도를 뜻하는 변수
 	clrscr(); //화면 클리어
@@ -189,6 +189,38 @@ int getGameSpeed(void)
 	} while(speed < 1 || speed > 9);
 	//뱀의 이동속도 speed변수의 값이 1~9사이인지 판별하고 아닐시 반복 
 	return(speed);
+}
+
+//임시로 getGameSpeed 함수에 사용될 menuSelector함수를 선언해줌.
+//추후에 삭제해야함.
+int menuSelector(int x, int y, int yStart);
+
+int getGameSpeed(void)
+{
+	int x = 10;
+	int y = 3;
+	int yStart = y+2;
+
+	int selected;
+
+	clrscr();
+	gotoxy(x,y++);
+	printf("Select The game speed between 1 and 9.");
+	gotoxy(x,y++);
+
+	gotoxy(x,y++);
+	printf("EASY\n");
+	gotoxy(x,y++);
+	printf("NORMAL\n");
+	gotoxy(x, y++);
+	printf("HARD\n");
+	
+	selected = manuSelector(x,y,yStart);
+
+	selected = (selected+1) * 3;
+	//EASY -> 3, NOMAL -> 6, HARD -> 9
+	
+	return(selected);
 }
 
 /**
