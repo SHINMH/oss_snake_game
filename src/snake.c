@@ -150,7 +150,7 @@ Although this program may compile/ run in Cygwin it runs slowly.
 //This should be the same on both operating systems
 #define EXIT_BUTTON 27 //ESC
 #define PAUSE_BUTTON 112 //P
-
+#define CUT_BUTTON 99 //C
 
 /**
 * 키보드 입력을 기다리고 입력된 값을 반환한다.
@@ -238,6 +238,8 @@ int checkKeysPressed(int direction)
 				direction = pressed;
 			else if (pressed == EXIT_BUTTON || pressed == PAUSE_BUTTON)
 				pauseMenu();
+			else if (pressed == CUT_BUTTON)
+				direction = pressed;
 		}
 	}
 	return(direction);
@@ -726,6 +728,21 @@ void gameOverScreen(void)
 	return;
 }
 
+int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
+	int x, y;
+
+	if (snakeLength < 8)
+		return snakeLength;
+
+	for (int i = snakeLength - 1; i >= snakeLength / 2; i--) {
+		gotoxy(snakeXY[0][i], snakeXY[1][i]);
+		printf("%c", BLANK);
+	}
+	snakeLength /= 2;
+
+	return snakeLength;
+}
+
 /**
 * 게임 시작시 호출되는 게임의 메인 로직.
 *
@@ -763,7 +780,11 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 		
 		if(oldDirection != direction) // 직전 방향과 다른 경우
 			canChangeDirection = 0; //방향 전환이 불가능하도록 설정. (snake가 스스로 충돌하는 것을 방지)
-			
+		else if (direction == CUT_BUTTON) {
+		    snakeLength = cutTail(snakeXY, snakeLength);
+		    direction = oldDirection;
+		}
+
 		if(clock() >= endWait) // 대기 종료 시간이 지난 경우. (컴퓨터 속도에 따라 동작.)
 		{
 			//gotoxy(1,1);
