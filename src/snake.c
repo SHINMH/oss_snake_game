@@ -791,7 +791,8 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 		else if (direction == CUT_BUTTON) { //'C'키가 눌리고,
 		    if(snakeLength > 8) { //뱀의 길이가 8보다 크면
 			score /= 2;    //점수를 절반으로 깎고
-			snakeLength = cutTail(snakeXY, snakeLength); //cuTail 함수를 호출하여 뱀의 길이를 절반으로 줄임/
+			snakeLength = cutTail(snakeXY, snakeLength); //cuTail 함수를 호출하여 뱀의 길이를 절반으로 줄임.
+			refreshInfoBar(score, speed) //하단바 갱신
 		    }
 		    direction = oldDirection; //뱀의 이동방향은 전의 그대로
 		}
