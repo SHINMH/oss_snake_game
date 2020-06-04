@@ -39,10 +39,10 @@ Although this program may compile/ run in Cygwin it runs slowly.
 	
 	#define ENTER_KEY 13
 	
-	const char SNAKE_HEAD = (char)177;
-	const char SNAKE_BODY = (char)178;
-	const char WALL = (char)219;	
-	const char FOOD = (char)254;
+	const char SNAKE_HEAD = (char)64;
+	const char SNAKE_BODY = (char)48;
+	const char WALL = (char)127;	
+	const char FOOD = (char)14;
 	const char BLANK = ' ';
 
 
@@ -191,8 +191,8 @@ int getGameSpeed2(void)
 	return(speed);
 }
 
-//임시로 getGameSpeed 함수에 사용될 menuSelector함수를 선언해줌.
-//추후에 삭제해야함.
+//?擔첨? getGameSpeed ?獨??? ?????? menuSelector?獨??? ????????.
+//???커? ??제?瞞???.
 int menuSelector(int x, int y, int yStart);
 
 int getGameSpeed(void)
