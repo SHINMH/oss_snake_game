@@ -731,9 +731,6 @@ void gameOverScreen(void)
 int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
 	int x, y;
 
-	if (snakeLength < 8)
-		return snakeLength;
-
 	for (int i = snakeLength - 1; i >= snakeLength / 2; i--) {
 		gotoxy(snakeXY[0][i], snakeXY[1][i]);
 		printf("%c", BLANK);
@@ -775,13 +772,17 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 		if(canChangeDirection) //방향 전환이 가능한 상태인 경우.
 		{
 			oldDirection = direction; // 현재 방향을 oldDirection에 저장.
+
 			direction = checkKeysPressed(direction); //새 방향값을 받아 대입.
 		}
 		
 		if(oldDirection != direction) // 직전 방향과 다른 경우
 			canChangeDirection = 0; //방향 전환이 불가능하도록 설정. (snake가 스스로 충돌하는 것을 방지)
 		else if (direction == CUT_BUTTON) {
-		    snakeLength = cutTail(snakeXY, snakeLength);
+		    if(snakeLength > 8) {
+			score /= 2;    
+			snakeLength = cutTail(snakeXY, snakeLength);
+		    }
 		    direction = oldDirection;
 		}
 
