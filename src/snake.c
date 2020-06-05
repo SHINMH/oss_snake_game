@@ -453,6 +453,13 @@ void resetRankData()
 	if (pressed == 'y') // y값인 경우 (=사용자가 삭제 선택) 
 	{
 		fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
+		
+		if (fp == NULL)
+		{
+			printf("FAILED!!!");
+			waitForAnyKey();
+			return;
+		}
 
 		for (i = 0; i < 5; i++)
 		{
