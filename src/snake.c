@@ -75,7 +75,7 @@ int getGameSpeed(void)
 
 	clrscr();
 	gotoxy(x,y++);
-	printf("Select The game speed between 1 and 9.");
+	printf("Select The game mode!!!");
 	gotoxy(x,y++);
 
 	gotoxy(x,y++);
@@ -238,6 +238,24 @@ void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direct
 	return;
 }
 /**
+* 커서 숨기는 함수.
+* ConsoleCursor.bVisible로 커서를 나타내는 것을 컨트롤한다.
+**/
+void CursorView(char show)
+{
+	HANDLE hConsole;
+	CONSOLE_CURSOR_INFO ConsoleCursor;
+
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	ConsoleCursor.bVisible = show; //true : 보임, false : 안보임
+	ConsoleCursor.dwSize = 1; //커서사이즈
+
+	SetConsoleCursorInfo(hConsole, &ConsoleCursor);
+	return;
+}
+
+/**
 * 방향키 입력 후 뱀의 모습을 나타내는 함수.
 * 꼬리 부분을 먼저 삭제하고, 이동 전의 머리부분을 몸통으로 바꿈
 * 그 후, moveSnakeArray 함수를 이용해 몸통부분을 바꾸고, 뱀의 머리방향을 설정
@@ -271,8 +289,8 @@ void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 	gotoxy(snakeXY[0][0],snakeXY[1][0]);	
 	printf("%c",SNAKE_HEAD);
 	
-	gotoxy(1,1); //(1,1)로 커서 이동
-	
+	//gotoxy(1,1); //(1,1)로 커서 이동
+	CursorView(0); //커서 숨김
 	return;
 }
 
@@ -697,7 +715,6 @@ void gameOverScreen(void)
  * */
 
 int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
-	int x, y;
 
 	for (int i = snakeLength - 1; i >= snakeLength / 2; i--) { //잘린 뱀의 꼬리를 구하는 for문
 		gotoxy(snakeXY[0][i], snakeXY[1][i]); //잘린 꼬리의 위치로 이동 후,
@@ -744,7 +761,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 		
 		if(oldDirection != direction) // 직전 방향과 다른 경우
 			canChangeDirection = 0; //방향 전환이 불가능하도록 설정. (snake가 스스로 충돌하는 것을 방지)
-		else if (direction == CUT_BUTTON) { //'C'키가 눌리고,
+		if (direction == CUT_BUTTON) { //'C'키가 눌리고,
 		    if(snakeLength > 8) { //뱀의 길이가 8보다 크면
 			score /= 2;    //점수를 절반으로 깎고
 			snakeLength = cutTail(snakeXY, snakeLength); //cuTail 함수를 호출하여 뱀의 길이를 절반으로 줄임.
@@ -957,7 +974,8 @@ int menuSelector(int x, int y, int yStart)
 	printf(">");
 	
 	//커서 좌표 (1,1) 이동
-	gotoxy(1,1);
+	//gotoxy(1,1);
+	CursorView(0); //커서 숨김
 
 	//방향키 위, 아래를 입력하며 메뉴 선택 구현
 	do
@@ -1004,14 +1022,14 @@ void welcomeArt(void)
 
 	printf("\n");	
 	printf("\t\t    _________         _________ 			\n");	
-	printf("\t\t   /         \\       /         \\ 			\n");	
-	printf("\t\t  /  /~~~~~\\  \\     /  /~~~~~\\  \\ 			\n");	
+	printf("\t\t   /          )      /          ) 			\n");	
+	printf("\t\t  /  /~~~~~|  |     /  /~~~~~|  | 			\n");	
 	printf("\t\t  |  |     |  |     |  |     |  | 			\n");		
 	printf("\t\t  |  |     |  |     |  |     |  | 			\n");
-	printf("\t\t  |  |     |  |     |  |     |  |         /	\n");
-	printf("\t\t  |  |     |  |     |  |     |  |       //	\n");
-	printf("\t\t (o  o)    \\  \\_____/  /     \\  \\_____/ / 	\n");
-	printf("\t\t  \\__/      \\         /       \\        / 	\n");
+	printf("\t\t  |  |     |  |     |  |     |  |      /	\n");
+	printf("\t\t  |  |     |  |     |  |     |  |     //	\n");
+	printf("\t\t (o  o)    (  |_____/  /     (  |____/ / 	\n");
+	printf("\t\t  (__/      (         /       (        / 	\n");
 	printf("\t\t    |        ~~~~~~~~~         ~~~~~~~~ 		\n");
 	printf("\t\t    ^											\n");
 	printf("\t		Welcome To The Snake Game!			\n");
