@@ -205,7 +205,7 @@ int getGameSpeed(void)
 
 	clrscr();
 	gotoxy(x,y++);
-	printf("Select The game speed between 1 and 9.");
+	printf("Select The game mode!!!");
 	gotoxy(x,y++);
 
 	gotoxy(x,y++);
