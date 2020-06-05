@@ -46,7 +46,7 @@ char waitForAnyKey(void)
 *
 * @return int : 뱀의 이동속도
 **/
-int getGameSpeed(void)
+int selectGameMode(void)
 {
 	int x = 10;
 	int y = 3;
@@ -928,7 +928,7 @@ void loadGame(void)
 	int consoleHeight = 25;
 	
 	//게임 스피드 설정
-	int speed = getGameSpeed();
+	int speed = selectGameMode();
 	
 	//초기 뱀머리 위치 설정
 	snakeXY[0][0] = 40; 

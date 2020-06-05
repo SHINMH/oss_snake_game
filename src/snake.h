@@ -137,7 +137,7 @@ void clrscr()
 char waitForAnyKey(void);
 int getGameSpeed2(void);
 int menuSelector(int x, int y, int yStart);
-int getGameSpeed(void);
+int selectGameMode(void);
 void pauseMenu(void);
 int checkKeysPressed(int direction);
 int collisionSnake(int x, int y, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int detect);
