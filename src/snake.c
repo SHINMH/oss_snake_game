@@ -588,7 +588,7 @@ void resetRankData()
 	}
 
 	return;
-}2020-06-05
+}
 
 /**
  * 최고 점수 기록 함수
