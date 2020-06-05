@@ -545,10 +545,64 @@ int getLowestScore()
 }
 
 /**
+<<<<<<< HEAD
  * ìµœê³  ì ìˆ˜ ê¸°ë¡ í•¨ìˆ˜
  * ê²Œì„ì´ ëë‚¬ì„ ë•Œ ê²°ê³¼ ì ìˆ˜ê°€
  * ê¸°ë¡ëœ ìµœê³  ì ìˆ˜ ê¸°ë¡ ì¤‘
  * ê°€ì¥ ë‚®ì€ ì ìˆ˜ë³´ë‹¤ ë†’ì„ ë•Œ í˜¸ì¶œ
+=======
+ * ±âÁ¸ ·©Å· µ¥ÀÌÅÍ(ÃÖ°í Á¡¼öµé) ÆÄÀÏ ÃÊ±âÈ­ ÇÔ¼ö
+ **/
+void resetRankData()
+{
+	FILE *fp;
+	int i;
+	
+	clrscr();    //È­¸é ÃÊ±âÈ­
+	
+	char pressed; // »ç¿ëÀÚÀÇ ÀÔ·Â°ªÀ» ´ãÀ» º¯¼ö. ÇÑ ±ÛÀÚ·Î char Å¸ÀÔ. 
+	gotoxy(9,8); // ¸Ş½ÃÁö Ãâ·ÂÀ» À§ÇØ (9,8) À§Ä¡·Î ÁÂÇ¥ ÀÌµ¿.
+	printf("Are you sure you want to reset rank data? (y/n)\n"); //Á¾·á ¿©ºÎ È®ÀÎ ¸Ş½ÃÁö.
+	
+	pressed = waitForAnyKey(); // waitForAnyKey() Func·ÎºÎÅÍ Å° ÀÔ·Â¹Ş¾Æ pressed¿¡.
+	pressed = (char)tolower(pressed); // ´ë¹®ÀÚÀÏ °æ¿ì ÀüºÎ ¼Ò¹®ÀÚ·Î º¯È¯.
+		
+	clrscr();    //È­¸é ÃÊ±âÈ­
+	gotoxy(9,8); 
+	if (pressed == 'y') // y°ªÀÎ °æ¿ì (=»ç¿ëÀÚ°¡ Á¾·á ¼±ÅÃ) 
+	{
+		fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt¸¦ ¾²±â ¸ğµå·Î ¿­À½
+
+		for (i = 0; i < 5; i++)
+		{
+			//ÆÄÀÏ¿¡ ±â·Ï ÀÔ·Â
+			fprintf(fp, "%d\t0\t\t\tEMPTY\n", i + 1);
+		}
+
+		fclose(fp);	 //highscores.txt ´İÀ½
+			
+		printf("DELETED!!!");
+		gotoxy(9, 9);
+		printf("Press any key to continue...");
+		waitForAnyKey();
+	} 
+	else
+	{
+		printf("CANCELED!!!");
+		gotoxy(9, 9);
+		printf("Press any key to continue...");
+		waitForAnyKey();
+	}
+
+	return;
+}
+
+/**
+ * ÃÖ°í Á¡¼ö ±â·Ï ÇÔ¼ö
+ * °ÔÀÓÀÌ ³¡³µÀ» ¶§ °á°ú Á¡¼ö°¡
+ * ±â·ÏµÈ ÃÖ°í Á¡¼ö ±â·Ï Áß
+ * °¡Àå ³·Àº Á¡¼öº¸´Ù ³ôÀ» ¶§ È£Ãâ
+>>>>>>> feature/resetRankData
  *
  * @param score : ê²Œì„ ì¢…ë£Œ ì ìˆ˜
  **/
@@ -679,7 +733,21 @@ void displayHighScores(void)
 	gotoxy(10,y++);
 	
 	printf("Press any key to continue...");
+<<<<<<< HEAD
 	waitForAnyKey();    //ì•„ë¬´ í‚¤ê°€ ì…ë ¥ ë˜ê¸¸ ê¸°ë‹¤ë¦¼
+=======
+	gotoxy(10, y++);
+
+	printf("If you want to reset rank data, press 'c' key.");
+
+	char pressed; // »ç¿ëÀÚÀÇ ÀÔ·Â°ªÀ» ´ãÀ» º¯¼ö. ÇÑ ±ÛÀÚ·Î char Å¸ÀÔ. 
+	pressed = waitForAnyKey(); // waitForAnyKey() Func·ÎºÎÅÍ Å° ÀÔ·Â¹Ş¾Æ pressed¿¡.
+	pressed = (char)tolower(pressed); // ´ë¹®ÀÚÀÏ °æ¿ì ÀüºÎ ¼Ò¹®ÀÚ·Î º¯È¯.
+
+	if (pressed == 'c') //c¹öÆ° Å¬¸¯½Ã ÃÊ±âÈ­ Ãâ·Â
+		resetRankData();
+
+>>>>>>> feature/resetRankData
 	return;
 }
 
