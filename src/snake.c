@@ -535,12 +535,10 @@ void resetRankData()
 		for (i = 0; i < 5; i++)
 		{
 			//파일에 기록 입력
-			if (!fp == '0')	//highscores.txt 존재 확인
-				fprintf(fp, "%d\t0\t\t\tEMPTY\n", i + 1);
+			fprintf(fp, "%d\t0\t\t\tEMPTY\n", i + 1);
 		}
 
-		if (!fp == '0')	 //highscores.txt 존재 확인
-			fclose(fp);	 //highscores.txt 닫음
+		fclose(fp);	 //highscores.txt 닫음
 			
 		printf("DELETED!!!");
 	} 
