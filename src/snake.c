@@ -510,6 +510,33 @@ int getLowestScore()
 }
 
 /**
+ * 기존 랭킹 데이터(최고 점수들) 파일 초기화 함수
+ **/
+void resetRankData()
+{
+	FILE *fp;
+	int i;
+	char* highScoreName = (char*)malloc(sizeof(char) * 6);
+	strcpy_s(highScoreName, sizeof(highScoreName), "EMPTY");
+	
+	clrscr();    //화면 초기화
+
+	fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
+
+	for (i = 0; i < 5; i++)
+	{
+		//파일에 기록 입력
+		if (!fp == '0')	//highscores.txt 존재 확인
+			fprintf(fp, "%d\t%d\t\t\t%s\n", i + 1, 0, highScoreName);
+	}
+
+	if (!fp == '0')	 //highscores.txt 존재 확인
+		fclose(fp);	 //highscores.txt 닫음
+
+	return;
+}
+
+/**
  * 최고 점수 기록 함수
  * 게임이 끝났을 때 결과 점수가
  * 기록된 최고 점수 기록 중
