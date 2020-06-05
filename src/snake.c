@@ -626,7 +626,8 @@ void displayHighScores(void)
 
 	if(fp == NULL) {    //파일이 없는 경우 파일을 새로 생성
 		createHighScores(); //최고 점수 기록 화면을 출력하는 함수 호출
-		if(!fopen_s(&fp, "highscores.txt", "r"))    //highscores.txt 파일을 여는데 실패하면 프로그램 종료
+		fopen_s(&fp, "highscores.txt", "r");
+		if(fp == NULL)    //highscores.txt 파일을 여는데 실패하면 프로그램 종료
 			exit(1);
 	}
 	
