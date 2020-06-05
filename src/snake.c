@@ -20,137 +20,7 @@ Although this program may compile/ run in Cygwin it runs slowly.
 */
 
 #include <stdio.h>
-#include <time.h>
-#include <math.h>
-#include <stdlib.h>
-
-#define SNAKE_ARRAY_SIZE 310
-
-#ifdef _WIN32
-	//Windows Libraries
-	#include <conio.h>
-	#include <Windows.h>
-	//Windows Constants
-	//Controls
-	#define UP_ARROW 72
-	#define LEFT_ARROW 75
-	#define RIGHT_ARROW 77
-	#define DOWN_ARROW 80
-	
-	#define ENTER_KEY 13
-	
-	const char SNAKE_HEAD = (char)64;
-	const char SNAKE_BODY = (char)48;
-	const char WALL = (char)127;	
-	const char FOOD = (char)14;
-	const char BLANK = ' ';
-
-
-	/**
-	* 커서의 위치를 화면 왼쪽상단을 기준으로 x,y 만큼 이동
-	* 
-	* @param int x : x좌표
-	* @param int y : y좌표
-	**/
-	void gotoxy(int x,int y)
-	{
-		COORD Pos;
-		Pos.X = (short)x;
-		Pos.Y = (short)y;
-		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
-		//커서값을 이동시키는 함수
-		//getStdHandle() 파라미터로 넘겨준 값의 핸들값을 반환해준다.
-	}
-	
-	/**
-	* 콘솔화면의 내용을 모두 지운다.
-	**/
-	void clrscr()
-	{
-		system("cls");
-		return;
-	}
-	
-#else
-	//Linux Libraries
-	#include <termios.h>
-	#include <unistd.h>
-	#include <fcntl.h>
-	
-	//Linux Constants
-
-	//Controls (arrow keys for Ubuntu) 
-	#define UP_ARROW (char)'A' //Originally I used constants but borland started giving me errors, so I changed to #define - I do realize that is not the best way.
-	#define LEFT_ARROW (char)'D'
-	#define RIGHT_ARROW (char)'C'
-	#define DOWN_ARROW (char)'B'
-
-	#define ENTER_KEY 10
-	
-	const char SNAKE_HEAD = 'X';
-	const char SNAKE_BODY = '#';
-	const char WALL = '#';	
-	const char FOOD = '*';
-	const char BLANK = ' ';
-	
-	//Linux Functions - These functions emulate some functions from the windows only conio header file
-	//Code: http://ubuntuforums.org/showthread.php?t=549023
-	void gotoxy(int x,int y)
-	{
-		printf("%c[%d;%df",0x1B,y,x);
-	}
-
-	//http://cboard.cprogramming.com/c-programming/63166-kbhit-linux.html
-	int kbhit(void)
-	{
-	  struct termios oldt, newt;
-	  int ch;
-	  int oldf;
-
-	  tcgetattr(STDIN_FILENO, &oldt);
-	  newt = oldt;
-	  newt.c_lflag &= ~(ICANON | ECHO);
-	  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-	  oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-	  fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
-
-	  ch = getchar();
-
-	  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-	  fcntl(STDIN_FILENO, F_SETFL, oldf);
-
-	  if(ch != EOF)
-	  {
-		ungetc(ch, stdin);
-		return 1;
-	  }
-
-	  return 0;
-	}
-
-	//http://www.experts-exchange.com/Programming/Languages/C/Q_10119844.html - posted by jos
-	char getch()
-	{
-		char c;
-		system("stty raw");
-		c= getchar();
-		system("stty sane");
-		//printf("%c",c);
-		return(c);
-	}
-
-	void clrscr()
-	{
-		system("clear");
-		return;
-	}
-	//End linux Functions
-#endif
-
-//This should be the same on both operating systems
-#define EXIT_BUTTON 27 //ESC
-#define PAUSE_BUTTON 112 //P
-#define CUT_BUTTON 99 //C
+#include "snake.h"
 
 /**
 * 키보드 입력을 기다리고 입력된 값을 반환한다.
@@ -171,30 +41,11 @@ char waitForAnyKey(void)
 }
 
 /**
-* 뱀의 속도를 선택하는 화면 표시와 뱀의 속도를 입력 받아 반환한다.
+* 게임 시작 선택 후 게임의 난이도를 선택하는 화면.
+* 게임 모드는 EASY, NORMAL, HARD 모드가 존재한다.
 *
 * @return int : 뱀의 이동속도
 **/
-int getGameSpeed2(void)
-{
-	int speed; //뱀의 이동속도를 뜻하는 변수
-	clrscr(); //화면 클리어
-	
-	do
-	{
-		gotoxy(10,5); //커서 이동후 문구 출력
-		printf("Select The game speed between 1 and 9.");
-		speed = waitForAnyKey()-48;
-		//waitForAnyKey()함수의 반환값이 char형이라 48을 빼야 숫자에 해당함
-	} while(speed < 1 || speed > 9);
-	//뱀의 이동속도 speed변수의 값이 1~9사이인지 판별하고 아닐시 반복 
-	return(speed);
-}
-
-//임시로 getGameSpeed 함수에 사용될 menuSelector함수를 선언해줌.
-//추후에 삭제해야함.
-int menuSelector(int x, int y, int yStart);
-
 int getGameSpeed(void)
 {
 	int x = 10;
@@ -205,7 +56,7 @@ int getGameSpeed(void)
 
 	clrscr();
 	gotoxy(x,y++);
-	printf("Select The game speed between 1 and 9.");
+	printf("Select The game mode!!!");
 	gotoxy(x,y++);
 
 	gotoxy(x,y++);
@@ -368,6 +219,24 @@ void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direct
 	return;
 }
 /**
+* 커서 숨기는 함수.
+* ConsoleCursor.bVisible로 커서를 나타내는 것을 컨트롤한다.
+**/
+void CursorView(char show)
+{
+	HANDLE hConsole;
+	CONSOLE_CURSOR_INFO ConsoleCursor;
+
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	ConsoleCursor.bVisible = show; //true : 보임, false : 안보임
+	ConsoleCursor.dwSize = 1; //커서사이즈
+
+	SetConsoleCursorInfo(hConsole, &ConsoleCursor);
+	return;
+}
+
+/**
 * 방향키 입력 후 뱀의 모습을 나타내는 함수.
 * 꼬리 부분을 먼저 삭제하고, 이동 전의 머리부분을 몸통으로 바꿈
 * 그 후, moveSnakeArray 함수를 이용해 몸통부분을 바꾸고, 뱀의 머리방향을 설정
@@ -401,8 +270,8 @@ void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 	gotoxy(snakeXY[0][0],snakeXY[1][0]);	
 	printf("%c",SNAKE_HEAD);
 	
-	gotoxy(1,1); //(1,1)로 커서 이동
-	
+	//gotoxy(1,1); //(1,1)로 커서 이동
+	CursorView(0); //커서 숨김
 	return;
 }
 
@@ -565,6 +434,13 @@ void resetRankData()
 	if (pressed == 'y') // y값인 경우 (=사용자가 삭제 선택) 
 	{
 		fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
+		
+		if (fp == NULL)
+		{
+			printf("FAILED!!!");
+			waitForAnyKey();
+			return;
+		}
 
 		for (i = 0; i < 5; i++)
 		{
@@ -827,7 +703,6 @@ void gameOverScreen(void)
  * */
 
 int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
-	int x, y;
 
 	for (int i = snakeLength - 1; i >= snakeLength / 2; i--) { //잘린 뱀의 꼬리를 구하는 for문
 		gotoxy(snakeXY[0][i], snakeXY[1][i]); //잘린 꼬리의 위치로 이동 후,
@@ -874,7 +749,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 		
 		if(oldDirection != direction) // 직전 방향과 다른 경우
 			canChangeDirection = 0; //방향 전환이 불가능하도록 설정. (snake가 스스로 충돌하는 것을 방지)
-		else if (direction == CUT_BUTTON) { //'C'키가 눌리고,
+		if (direction == CUT_BUTTON) { //'C'키가 눌리고,
 		    if(snakeLength > 8) { //뱀의 길이가 8보다 크면
 			score /= 2;    //점수를 절반으로 깎고
 			snakeLength = cutTail(snakeXY, snakeLength); //cuTail 함수를 호출하여 뱀의 길이를 절반으로 줄임.
@@ -1087,7 +962,8 @@ int menuSelector(int x, int y, int yStart)
 	printf(">");
 	
 	//커서 좌표 (1,1) 이동
-	gotoxy(1,1);
+	//gotoxy(1,1);
+	CursorView(0); //커서 숨김
 
 	//방향키 위, 아래를 입력하며 메뉴 선택 구현
 	do
@@ -1134,14 +1010,14 @@ void welcomeArt(void)
 
 	printf("\n");	
 	printf("\t\t    _________         _________ 			\n");	
-	printf("\t\t   /         \\       /         \\ 			\n");	
-	printf("\t\t  /  /~~~~~\\  \\     /  /~~~~~\\  \\ 			\n");	
+	printf("\t\t   /          )      /          ) 			\n");	
+	printf("\t\t  /  /~~~~~|  |     /  /~~~~~|  | 			\n");	
 	printf("\t\t  |  |     |  |     |  |     |  | 			\n");		
 	printf("\t\t  |  |     |  |     |  |     |  | 			\n");
-	printf("\t\t  |  |     |  |     |  |     |  |         /	\n");
-	printf("\t\t  |  |     |  |     |  |     |  |       //	\n");
-	printf("\t\t (o  o)    \\  \\_____/  /     \\  \\_____/ / 	\n");
-	printf("\t\t  \\__/      \\         /       \\        / 	\n");
+	printf("\t\t  |  |     |  |     |  |     |  |      /	\n");
+	printf("\t\t  |  |     |  |     |  |     |  |     //	\n");
+	printf("\t\t (o  o)    (  |_____/  /     (  |____/ / 	\n");
+	printf("\t\t  (__/      (         /       (        / 	\n");
 	printf("\t\t    |        ~~~~~~~~~         ~~~~~~~~ 		\n");
 	printf("\t\t    ^											\n");
 	printf("\t		Welcome To The Snake Game!			\n");
