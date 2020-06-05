@@ -530,7 +530,8 @@ void resetRankData()
 		
 	clrscr();    //화면 초기화
 	gotoxy(9,8); 
-	if (pressed == 'y') // y값인 경우 (=사용자가 종료 선택) {
+	if (pressed == 'y') // y값인 경우 (=사용자가 종료 선택) 
+	{
 		fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
 
 		for (i = 0; i < 5; i++)
@@ -544,7 +545,9 @@ void resetRankData()
 			fclose(fp);	 //highscores.txt 닫음
 			
 		printf("DELETED!!!");
-	} else {
+	} 
+	else
+	{
 		printf("CANCELED!!!");
 	}
 
