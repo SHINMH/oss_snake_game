@@ -541,10 +541,16 @@ void resetRankData()
 		fclose(fp);	 //highscores.txt ´ÝÀ½
 			
 		printf("DELETED!!!");
+		gotoxy(9, 9);
+		printf("Press any key to continue...");
+		waitForAnyKey();
 	} 
 	else
 	{
 		printf("CANCELED!!!");
+		gotoxy(9, 9);
+		printf("Press any key to continue...");
+		waitForAnyKey();
 	}
 
 	return;
