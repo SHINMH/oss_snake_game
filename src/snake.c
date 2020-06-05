@@ -845,7 +845,6 @@ void gameOverScreen(void)
  * */
 
 int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
-	int x, y;
 
 	for (int i = snakeLength - 1; i >= snakeLength / 2; i--) { //잘린 뱀의 꼬리를 구하는 for문
 		gotoxy(snakeXY[0][i], snakeXY[1][i]); //잘린 꼬리의 위치로 이동 후,
@@ -892,7 +891,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 		
 		if(oldDirection != direction) // 직전 방향과 다른 경우
 			canChangeDirection = 0; //방향 전환이 불가능하도록 설정. (snake가 스스로 충돌하는 것을 방지)
-		else if (direction == CUT_BUTTON) { //'C'키가 눌리고,
+		if (direction == CUT_BUTTON) { //'C'키가 눌리고,
 		    if(snakeLength > 8) { //뱀의 길이가 8보다 크면
 			score /= 2;    //점수를 절반으로 깎고
 			snakeLength = cutTail(snakeXY, snakeLength); //cuTail 함수를 호출하여 뱀의 길이를 절반으로 줄임.
