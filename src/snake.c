@@ -536,7 +536,7 @@ void resetRankData()
 		{
 			//파일에 기록 입력
 			if (!fp == '0')	//highscores.txt 존재 확인
-				fprintf(fp, "%d\t%d\t\t\t%s\n", i + 1, 0, highScoreName);
+				fprintf(fp, "%d\t0\t\t\tEMPTY\n", i + 1);
 		}
 
 		if (!fp == '0')	 //highscores.txt 존재 확인
