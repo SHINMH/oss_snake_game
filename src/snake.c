@@ -41,30 +41,11 @@ char waitForAnyKey(void)
 }
 
 /**
-* 뱀의 속도를 선택하는 화면 표시와 뱀의 속도를 입력 받아 반환한다.
+* 게임 시작 선택 후 게임의 난이도를 선택하는 화면.
+* 게임 모드는 EASY, NORMAL, HARD 모드가 존재한다.
 *
 * @return int : 뱀의 이동속도
 **/
-int getGameSpeed2(void)
-{
-	int speed; //뱀의 이동속도를 뜻하는 변수
-	clrscr(); //화면 클리어
-	
-	do
-	{
-		gotoxy(10,5); //커서 이동후 문구 출력
-		printf("Select The game speed between 1 and 9.");
-		speed = waitForAnyKey()-48;
-		//waitForAnyKey()함수의 반환값이 char형이라 48을 빼야 숫자에 해당함
-	} while(speed < 1 || speed > 9);
-	//뱀의 이동속도 speed변수의 값이 1~9사이인지 판별하고 아닐시 반복 
-	return(speed);
-}
-
-//임시로 getGameSpeed 함수에 사용될 menuSelector함수를 선언해줌.
-//추후에 삭제해야함.
-int menuSelector(int x, int y, int yStart);
-
 int getGameSpeed(void)
 {
 	int x = 10;
