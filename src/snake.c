@@ -381,6 +381,7 @@ void CursorView(char show)
 	ConsoleCursor.bVisible = show; //true : 보임, false : 안보임
 	ConsoleCursor.dwSize = 1; //커서사이즈
 
+	SetConsoleCursorInfo(hConsole, &ConsoleCursor);
 	return;
 }
 
