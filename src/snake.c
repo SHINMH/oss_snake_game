@@ -520,18 +520,33 @@ void resetRankData()
 	strcpy_s(highScoreName, sizeof(highScoreName), "EMPTY");
 	
 	clrscr();    //화면 초기화
+	
+	char pressed; // 사용자의 입력값을 담을 변수. 한 글자로 char 타입. 
+	gotoxy(9,8); // 메시지 출력을 위해 (9,8) 위치로 좌표 이동.
+	printf("Are you sure you want to reset rank data?(Y/N)\n"); //종료 여부 확인 메시지.
+	
+	pressed = waitForAnyKey(); // waitForAnyKey() Func로부터 키 입력받아 pressed에.
+	pressed = (char)tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
+		
+	clrscr();    //화면 초기화
+	gotoxy(9,8); 
+	if (pressed == 'y') // y값인 경우 (=사용자가 종료 선택) {
+		fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
 
-	fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
+		for (i = 0; i < 5; i++)
+		{
+			//파일에 기록 입력
+			if (!fp == '0')	//highscores.txt 존재 확인
+				fprintf(fp, "%d\t%d\t\t\t%s\n", i + 1, 0, highScoreName);
+		}
 
-	for (i = 0; i < 5; i++)
-	{
-		//파일에 기록 입력
-		if (!fp == '0')	//highscores.txt 존재 확인
-			fprintf(fp, "%d\t%d\t\t\t%s\n", i + 1, 0, highScoreName);
+		if (!fp == '0')	 //highscores.txt 존재 확인
+			fclose(fp);	 //highscores.txt 닫음
+			
+		printf("DELETED!!!");
+	} else {
+		printf("CANCELED!!!");
 	}
-
-	if (!fp == '0')	 //highscores.txt 존재 확인
-		fclose(fp);	 //highscores.txt 닫음
 
 	return;
 }
