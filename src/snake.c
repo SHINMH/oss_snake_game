@@ -691,7 +691,17 @@ void displayHighScores(void)
 	gotoxy(10,y++);
 	
 	printf("Press any key to continue...");
-	waitForAnyKey();    //아무 키가 입력 되길 기다림
+	gotoxy(10, y++);
+
+	printf("If you want to reset rank data, press 'c' key.");
+
+	char pressed; // 사용자의 입력값을 담을 변수. 한 글자로 char 타입. 
+	pressed = waitForAnyKey(); // waitForAnyKey() Func로부터 키 입력받아 pressed에.
+	pressed = (char)tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
+
+	if (pressed == 'c') //c버튼 클릭시 초기화 출력
+		resetRankData();
+
 	return;
 }
 
