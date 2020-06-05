@@ -516,14 +516,12 @@ void resetRankData()
 {
 	FILE *fp;
 	int i;
-	char* highScoreName = (char*)malloc(sizeof(char) * 6);
-	strcpy_s(highScoreName, sizeof(highScoreName), "EMPTY");
 	
 	clrscr();    //화면 초기화
 	
 	char pressed; // 사용자의 입력값을 담을 변수. 한 글자로 char 타입. 
 	gotoxy(9,8); // 메시지 출력을 위해 (9,8) 위치로 좌표 이동.
-	printf("Are you sure you want to reset rank data?(Y/N)\n"); //종료 여부 확인 메시지.
+	printf("Are you sure you want to reset rank data? (y/n)\n"); //종료 여부 확인 메시지.
 	
 	pressed = waitForAnyKey(); // waitForAnyKey() Func로부터 키 입력받아 pressed에.
 	pressed = (char)tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
