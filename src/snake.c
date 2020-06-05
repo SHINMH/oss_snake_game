@@ -545,10 +545,64 @@ int getLowestScore()
 }
 
 /**
+<<<<<<< HEAD
  * ìµœê³  ì ìˆ˜ ê¸°ë¡ í•¨ìˆ˜
  * ê²Œì„ì´ ëë‚¬ì„ ë•Œ ê²°ê³¼ ì ìˆ˜ê°€
  * ê¸°ë¡ëœ ìµœê³  ì ìˆ˜ ê¸°ë¡ ì¤‘
  * ê°€ì¥ ë‚®ì€ ì ìˆ˜ë³´ë‹¤ ë†’ì„ ë•Œ í˜¸ì¶œ
+=======
+ * ±âÁ¸ ·©Å· µ¥ÀÌÅÍ(ÃÖ°í Á¡¼öµé) ÆÄÀÏ ÃÊ±âÈ­ ÇÔ¼ö
+ **/
+void resetRankData()
+{
+	FILE *fp;
+	int i;
+	
+	clrscr();    //È­¸é ÃÊ±âÈ­
+	
+	char pressed; // »ç¿ëÀÚÀÇ ÀÔ·Â°ªÀ» ´ãÀ» º¯¼ö. ÇÑ ±ÛÀÚ·Î char Å¸ÀÔ. 
+	gotoxy(9,8); // ¸Ş½ÃÁö Ãâ·ÂÀ» À§ÇØ (9,8) À§Ä¡·Î ÁÂÇ¥ ÀÌµ¿.
+	printf("Are you sure you want to reset rank data? (y/n)\n"); //Á¾·á ¿©ºÎ È®ÀÎ ¸Ş½ÃÁö.
+	
+	pressed = waitForAnyKey(); // waitForAnyKey() Func·ÎºÎÅÍ Å° ÀÔ·Â¹Ş¾Æ pressed¿¡.
+	pressed = (char)tolower(pressed); // ´ë¹®ÀÚÀÏ °æ¿ì ÀüºÎ ¼Ò¹®ÀÚ·Î º¯È¯.
+		
+	clrscr();    //È­¸é ÃÊ±âÈ­
+	gotoxy(9,8); 
+	if (pressed == 'y') // y°ªÀÎ °æ¿ì (=»ç¿ëÀÚ°¡ Á¾·á ¼±ÅÃ) 
+	{
+		fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt¸¦ ¾²±â ¸ğµå·Î ¿­À½
+
+		for (i = 0; i < 5; i++)
+		{
+			//ÆÄÀÏ¿¡ ±â·Ï ÀÔ·Â
+			fprintf(fp, "%d\t0\t\t\tEMPTY\n", i + 1);
+		}
+
+		fclose(fp);	 //highscores.txt ´İÀ½
+			
+		printf("DELETED!!!");
+		gotoxy(9, 9);
+		printf("Press any key to continue...");
+		waitForAnyKey();
+	} 
+	else
+	{
+		printf("CANCELED!!!");
+		gotoxy(9, 9);
+		printf("Press any key to continue...");
+		waitForAnyKey();
+	}
+
+	return;
+}
+
+/**
+ * ÃÖ°í Á¡¼ö ±â·Ï ÇÔ¼ö
+ * °ÔÀÓÀÌ ³¡³µÀ» ¶§ °á°ú Á¡¼ö°¡
+ * ±â·ÏµÈ ÃÖ°í Á¡¼ö ±â·Ï Áß
+ * °¡Àå ³·Àº Á¡¼öº¸´Ù ³ôÀ» ¶§ È£Ãâ
+>>>>>>> feature/resetRankData
  *
  * @param score : ê²Œì„ ì¢…ë£Œ ì ìˆ˜
  **/
@@ -679,7 +733,21 @@ void displayHighScores(void)
 	gotoxy(10,y++);
 	
 	printf("Press any key to continue...");
+<<<<<<< HEAD
 	waitForAnyKey();    //ì•„ë¬´ í‚¤ê°€ ì…ë ¥ ë˜ê¸¸ ê¸°ë‹¤ë¦¼
+=======
+	gotoxy(10, y++);
+
+	printf("If you want to reset rank data, press 'c' key.");
+
+	char pressed; // »ç¿ëÀÚÀÇ ÀÔ·Â°ªÀ» ´ãÀ» º¯¼ö. ÇÑ ±ÛÀÚ·Î char Å¸ÀÔ. 
+	pressed = waitForAnyKey(); // waitForAnyKey() Func·ÎºÎÅÍ Å° ÀÔ·Â¹Ş¾Æ pressed¿¡.
+	pressed = (char)tolower(pressed); // ´ë¹®ÀÚÀÏ °æ¿ì ÀüºÎ ¼Ò¹®ÀÚ·Î º¯È¯.
+
+	if (pressed == 'c') //c¹öÆ° Å¬¸¯½Ã ÃÊ±âÈ­ Ãâ·Â
+		resetRankData();
+
+>>>>>>> feature/resetRankData
 	return;
 }
 
@@ -709,8 +777,13 @@ void youWinScreen(void)
 	printf(":::..::::::.......::::.......:::::::...::...:::....::..::::..::....::");
 	gotoxy(x,y++);	
 	
+<<<<<<< HEAD
 	waitForAnyKey(); //ì‚¬ìš©ì í‚¤ ì…ë ¥ì´ ìˆì„ë•Œê¹Œì§€ ëŒ€ê¸°.
 	clrscr(); //clear the console
+=======
+	waitForAnyKey(); //»ç¿ëÀÚ Å° ÀÔ·ÂÀÌ ÀÖÀ»¶§±îÁö ´ë±â.
+	clrscr(); //È­¸éÀ» ºñ¿öÁÜ.
+>>>>>>> clean/remove-old-comment
 	return;
 }
 
@@ -797,6 +870,7 @@ int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
 //Todo /maybe-later: ì½”ë“œ ì •ë¦¬ í•„ìš”.
 void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth, int consoleHeight, int snakeLength, int direction, int score, int speed)
 {
+<<<<<<< HEAD
 	int gameOver = 0; // gameOver ì—¬ë¶€ ì²´í¬ ë³€ìˆ˜. (0: ê²Œì„ ì§„í–‰, 1: ê²Œì„ ì˜¤ë²„, 2: ìŠ¹ë¦¬)
 	clock_t endWait; // ëŒ€ê¸° ì¢…ë£Œ ì‹œê°„ì„ ë‹´ì„ ë³€ìˆ˜.
 	
@@ -806,6 +880,15 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 	int oldDirection = 0; // ì§ì „ ë°©í–¥ê°’ì„ ì €ì¥í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
 	int canChangeDirection = 1; // ë°©í–¥ ì „í™˜ì´ ê°€ëŠ¥í•œ ìƒíƒœì¸ì§€ ì €ì¥ (0: ë¶ˆê°€ëŠ¥, 1: ê°€ëŠ¥)
 	//int seconds = 1;
+=======
+	int gameOver = 0; // gameOver ¿©ºÎ Ã¼Å© º¯¼ö. (0: °ÔÀÓ ÁøÇà, 1: °ÔÀÓ ¿À¹ö, 2: ½Â¸®)
+	clock_t endWait; // ´ë±â Á¾·á ½Ã°£À» ´ãÀ» º¯¼ö.
+
+	int waitMili = CLOCKS_PER_SEC-(speed)*(CLOCKS_PER_SEC/10);	// ÇöÀç °ÔÀÓ ¼Óµµ¿¡ ¸Â´Â ´ë±â ½Ã°£ ¼³Á¤ (´ë±â ½Ã°£ : 1ÃÊ - °ÔÀÓ¼Óµµ(´Ü°è) * 0.1ÃÊ)
+	int tempScore = 10*speed; // ¼Óµµ Áõ°¡ ½ÃÁ¡¿¡¼­ ÇöÀç ½ºÄÚ¾î¿Í ºñ±³ÇÒ ±âÁØ°ªÀ» À§ÇÑ ÀÓ½Ã º¯¼ö. ÃÊ±â°ª : 10 * ¼Óµµ.
+	int oldDirection = 0; // Á÷Àü ¹æÇâ°ªÀ» ÀúÀåÇÏ±â À§ÇÑ º¯¼ö
+	int canChangeDirection = 1; // ¹æÇâ ÀüÈ¯ÀÌ °¡´ÉÇÑ »óÅÂÀÎÁö ÀúÀå (0: ºÒ°¡´É, 1: °¡´É)
+>>>>>>> clean/remove-old-comment
 
 	endWait = clock() + waitMili; // í˜„ì¬ ì‹œê°„ + ëŒ€ê¸° ì‹œê°„ì„ ëŒ€ê¸° ì¢…ë£Œ ì‹œê°„ìœ¼ë¡œ ì„¤ì •.
 
@@ -831,6 +914,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 
 		if(clock() >= endWait) // ëŒ€ê¸° ì¢…ë£Œ ì‹œê°„ì´ ì§€ë‚œ ê²½ìš°. (ì»´í“¨í„° ì†ë„ì— ë”°ë¼ ë™ì‘.)
 		{
+<<<<<<< HEAD
 			//gotoxy(1,1);
 			//printf("%d - %d",clock() , endWait);
 			move(snakeXY, snakeLength, direction); // Snakeë¥¼ ì§€ì •í•œ ë°©í–¥ìœ¼ë¡œ ì´ë™.
@@ -846,24 +930,38 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 				//printf("%d >= %d", 10*speed+score, tempScore);
 				if( score >= 10*speed+tempScore) // í˜„ì¬ ì ìˆ˜ê°€ ê²Œì„ ì†ë„ * 10 + ê¸°ì¤€ê°’ì´ ë˜ëŠ” í˜„ì¬ ë‹¨ê³„ ìŠ¤ì½”ì–´ë³´ë‹¤ í° ê²½ìš° ê²Œì„ ì†ë„ ì¦ê°€ ì²˜ë¦¬.
 				//if( 2 >= 2)
+=======
+			move(snakeXY, snakeLength, direction); // Snake¸¦ ÁöÁ¤ÇÑ ¹æÇâÀ¸·Î ÀÌµ¿.
+			canChangeDirection = 1;  //´Ù½Ã ¹æÇâ ÀüÈ¯ÀÌ °¡´ÉÇÏµµ·Ï.
+
+				
+			if(eatFood(snakeXY, foodXY)) // ÇöÀç ÁÂÇ¥¿¡ ¸ÔÀÌ°¡ Á¸ÀçÇÑ´Ù¸é
+			{
+				generateFood( foodXY, consoleWidth, consoleHeight, snakeXY, snakeLength); //»õ·Î¿î ¸ÔÀÌ »ı¼º.
+				snakeLength++; //SnakeÀÇ ±æÀÌ Áõ°¡.
+				score+=speed; //ÇöÀç ¼Óµµ¸¸Å­ Á¡¼ö ºÎ¿©.
+
+				if( score >= 10*speed+tempScore) // ÇöÀç Á¡¼ö°¡ °ÔÀÓ ¼Óµµ * 10 + ±âÁØ°ªÀÌ µÇ´Â ÇöÀç ´Ü°è ½ºÄÚ¾îº¸´Ù Å« °æ¿ì °ÔÀÓ ¼Óµµ Áõ°¡ Ã³¸®.
+>>>>>>> clean/remove-old-comment
 				{
 					speed++; // ê²Œì„ ì†ë„ ì¦ê°€.
 					tempScore = score; // íŒë‹¨ ê¸°ì¤€ê°’ì„ í˜„ì¬ ìŠ¤ì½”ì–´ë¡œ ë³€ê²½.
 
+<<<<<<< HEAD
 					if(speed <= 9)//this needs to be fixed // ê²Œì„ ì†ë„ê°€ 9 ì´í•˜ì¸ ê²½ìš°
 						waitMili = waitMili - (CLOCKS_PER_SEC/10); // ëŒ€ê¸° ì‹œê°„ ë‹¨ì¶• : ê¸°ì¡´ ëŒ€ê¸°ì‹œê°„ - 1/10ì´ˆ
 					else // ê²Œì„ ì†ë„ê°€ 9ë³´ë‹¤ í° ê²½ìš°
+=======
+					//°ÔÀÓ ¼Óµµ°¡ 9 ÀÌÇÏÀÎ °æ¿ì
+					if(speed <= 9) //TODO : Á¡°Ë ÇÊ¿ä
+						waitMili = waitMili - (CLOCKS_PER_SEC/10); // ´ë±â ½Ã°£ ´ÜÃà : ±âÁ¸ ´ë±â½Ã°£ - 1/10ÃÊ
+					else // °ÔÀÓ ¼Óµµ°¡ 9º¸´Ù Å« °æ¿ì
+>>>>>>> clean/remove-old-comment
 					{
 						if(waitMili >= 40) // í˜„ì¬ ëŒ€ê¸° ì‹œê°„ì´ ê²Œì„ í´ëŸ­ ì†ë„ ê¸°ì¤€ 40 ì´ìƒì¸ ê²½ìš°ì—ë§Œ ì†ë„ ì¦ê°€. (ê·¸ë³´ë‹¤ ë” ë¹ ë¥¼ ê²½ìš° í˜„ì‹¤ì ìœ¼ë¡œ ê²Œì„ ì§„í–‰ ë¶ˆê°€í•œ ì†ë„ì´ë¯€ë¡œ.)
 							waitMili = waitMili - (CLOCKS_PER_SEC/200); // ê¸°ì¡´ ëŒ€ê¸°ì‹œê°„ - 1/200ì´ˆ. (ì†ë„ ì¦ê°€í­ ë‚®ì¶¤)
 						
 					}
-					//level++;
-					//gotoxy(1,2);
-					//printf("    ");
-					//gotoxy(1,2);
-					//printf("%d",waitMili);
-					//x = 0;
 				}
 				
 				refreshInfoBar(score, speed); // í•˜ë‹¨ ë°” ê°±ì‹ .
@@ -877,8 +975,14 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 
 		if(snakeLength >= SNAKE_ARRAY_SIZE-5) // Snakeì˜ ê¸¸ì´ê°€ (ì„¤ì •í•œ ìµœëŒ€ ê¸¸ì´ - 5) ì´ìƒì¸ ê²½ìš° ê²Œì„ ìŠ¹ë¦¬. (ë°°ì—´ í¬ê¸°ë³´ë‹¤ ê¸¸ì–´ì§ˆ ê²½ìš° í¬ë˜ì‹œ ë°œìƒí•˜ë¯€ë¡œ.)
 		{
+<<<<<<< HEAD
 			gameOver = 2;//You Win! <- doesn't seem to work - NEED TO FIX/TEST THIS : gameOverì— ìŠ¹ë¦¬ì‹œë¥¼ ëœ»í•˜ëŠ” ì½”ë“œ 2 ì‚½ì…. (whileë¬¸ íƒˆì¶œ ìœ ë„) => ë™ì‘í•˜ì§€ ì•ŠëŠ”ë‹¤í•¨.
 			score+=1500; //ìŠ¹ë¦¬ì‹œ, ë³´ë„ˆìŠ¤ í¬ì¸íŠ¸ 1500ì› ì§€ê¸‰.
+=======
+			gameOver = 2; //gameOver¿¡ ½Â¸®½Ã¸¦ ¶æÇÏ´Â ÄÚµå 2 »ğÀÔ. (while¹® Å»Ãâ À¯µµ) 
+			//TODO : À§ ÄÚµå°¡ µ¿ÀÛÇÏÁö ¾Ê´Â °ÍÀ¸·Î º¸ÀÎ´Ù°í ÇÔ, Å×½ºÆ® ¹× ÇÊ¿ä½Ã ¼öÁ¤.
+			score+=1500; //½Â¸®½Ã, º¸³Ê½º Æ÷ÀÎÆ® 1500¿ø Áö±Ş.
+>>>>>>> clean/remove-old-comment
 		}
 		
 	} while (!gameOver); //gameOverê°’ì´ 0ì´ ì•„ë‹ë•Œê¹Œì§€ loop.
