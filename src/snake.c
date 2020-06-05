@@ -39,10 +39,10 @@ Although this program may compile/ run in Cygwin it runs slowly.
 	
 	#define ENTER_KEY 13
 	
-	const char SNAKE_HEAD = (char)177;
-	const char SNAKE_BODY = (char)178;
-	const char WALL = (char)219;	
-	const char FOOD = (char)254;
+	const char SNAKE_HEAD = (char)64;
+	const char SNAKE_BODY = (char)48;
+	const char WALL = (char)127;	
+	const char FOOD = (char)14;
 	const char BLANK = ' ';
 
 
@@ -191,8 +191,8 @@ int getGameSpeed2(void)
 	return(speed);
 }
 
-//�ӽ÷� getGameSpeed �Լ��� ���� menuSelector�Լ��� ��������.
-//���Ŀ� �����ؾ���.
+//임시로 getGameSpeed 함수에 사용될 menuSelector함수를 선언해줌.
+//추후에 삭제해야함.
 int menuSelector(int x, int y, int yStart);
 
 int getGameSpeed(void)
@@ -227,7 +227,7 @@ int getGameSpeed(void)
 /**
 * 입력이 있을 때까지 게임을 pause 시킬 때 사용되는 함수이다.
 * 단순히 하나의 입력이 들어올때까지 무한히 반복문이 돌면서 
-* 게임이 m추는 듯한 효과를 준다.
+* 게임이 멈추는 듯한 효과를 준다.
 **/
 void pauseMenu(void)
 {
