@@ -694,6 +694,41 @@ void gameOverScreen(void)
 	clrscr(); //화면을 비워줌
 	return;
 }
+/**
+* 점수에 따라 게임 진행 속도를 빠르게 함.
+*
+* @param int score 게임 점수
+* @param int speed 게임 속도
+*
+* return speed 변경된 게임 속도
+**/
+int setSpeed(int score, int speed) {
+	if (score >= speed * 20) //점수가 속도*20 보다 크거나 같을 경우 속도 증가
+		return ++speed;
+	else
+		return speed;
+}
+/**
+* 점수에 따라 게임 진행 속도를 빠르게 함.
+*
+* @param int waitMili 대기시간 (게임 속도와 직결됨)
+* @param int score 게임 점수
+* @param int speed 게임 속도
+*
+* return waitMili 변경된 대기시간
+**/
+int setWaitMili(int waitMili, int score, int speed) {
+	if (score >= speed * 20) { //점수가 속도*20 보다 크거나 같을 경우 대기시간 감소.
+		if (speed <= 9)
+			return waitMili -= (CLOCKS_PER_SEC / 10);
+		else {
+			if (waitMili >= 40) //대기시간이 40 이하일 경우 게임 진행이 사실상 힘들기 때문에 감소 폭을 줄임.
+				waitMili -= (CLOCKS_PER_SEC / 200);
+		}
+	}
+	else
+		return waitMili;
+}
 
 /**
  * 'C'키를 눌렀을 때 뱀의 길이를 절반으로 줄여줌.
@@ -734,7 +769,6 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 	clock_t endWait; // 대기 종료 시간을 담을 변수.
 
 	int waitMili = CLOCKS_PER_SEC-(speed)*(CLOCKS_PER_SEC/10);	// 현재 게임 속도에 맞는 대기 시간 설정 (대기 시간 : 1초 - 게임속도(단계) * 0.1초)
-	int tempScore = 10*speed; // 속도 증가 시점에서 현재 스코어와 비교할 기준값을 위한 임시 변수. 초기값 : 10 * 속도.
 	int oldDirection = 0; // 직전 방향값을 저장하기 위한 변수
 	int canChangeDirection = 1; // 방향 전환이 가능한 상태인지 저장 (0: 불가능, 1: 가능)
 
@@ -771,22 +805,8 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 				generateFood( foodXY, consoleWidth, consoleHeight, snakeXY, snakeLength); //새로운 먹이 생성.
 				snakeLength++; //Snake의 길이 증가.
 				score+=speed; //현재 속도만큼 점수 부여.
-
-				if( score >= 10*speed+tempScore) // 현재 점수가 게임 속도 * 10 + 기준값이 되는 현재 단계 스코어보다 큰 경우 게임 속도 증가 처리.
-				{
-					speed++; // 게임 속도 증가.
-					tempScore = score; // 판단 기준값을 현재 스코어로 변경.
-
-					//게임 속도가 9 이하인 경우
-					if(speed <= 9) //TODO : 점검 필요
-						waitMili = waitMili - (CLOCKS_PER_SEC/10); // 대기 시간 단축 : 기존 대기시간 - 1/10초
-					else // 게임 속도가 9보다 큰 경우
-					{
-						if(waitMili >= 40) // 현재 대기 시간이 게임 클럭 속도 기준 40 이상인 경우에만 속도 증가. (그보다 더 빠를 경우 현실적으로 게임 진행 불가한 속도이므로.)
-							waitMili = waitMili - (CLOCKS_PER_SEC/200); // 기존 대기시간 - 1/200초. (속도 증가폭 낮춤)
-						
-					}
-				}
+				speed = setSpeed(score, speed);
+				waitMili = setWaitMili(waitMili, score, speed);
 				
 				refreshInfoBar(score, speed); // 하단 바 갱신.
 			}
