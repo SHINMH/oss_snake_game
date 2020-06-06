@@ -374,7 +374,7 @@ void createHighScores(void)
  *
  * @return lowestScore : 기록 중에서 최저 점수
  * */
-int getLowestScore()
+int getLowestScore(void)
 {
 	FILE *fp;
 	char* str = (char*)calloc(SIZE_STR, sizeof(char));
@@ -417,7 +417,7 @@ int getLowestScore()
 /**
  * 기존 랭킹 데이터(최고 점수들) 파일 초기화 함수
  **/
-void resetRankData()
+void resetRankData(void)
 {
 	FILE *fp;
 	int i;
