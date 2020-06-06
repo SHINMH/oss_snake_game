@@ -30,6 +30,7 @@ Although this program may compile/ run in Cygwin it runs slowly.
 char waitForAnyKey(void)
 {
 	int pressed;// 키보드의 입력 값을 나타내는 변수
+<<<<<<< HEAD
 
 	while (!_kbhit());
 	// _kbhit()함수는 키보드 입력이 있음 1, 없음 0을 반환한다.
@@ -37,6 +38,15 @@ char waitForAnyKey(void)
 
 	pressed = _getch();//입력된 값으로 pressed 초기화
 
+=======
+	
+	while(!_kbhit());
+	// _kbhit()함수는 키보드 입력이 있음 1, 없음 0을 반환한다.
+	// 키보드 입력이 있을때까지 무한히 반복해 입력을 기다린다.
+
+	pressed = _getch();//입력된 값으로 pressed 초기화
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	return((char)pressed);
 }
 
@@ -46,15 +56,20 @@ char waitForAnyKey(void)
 *
 * @return int : 뱀의 이동속도
 **/
-int getGameSpeed(void)
+int selectGameMode(void)
 {
 	int x = 10;
 	int y = 3;
+<<<<<<< HEAD
 	int yStart = y + 2;
+=======
+	int yStart = y+2;
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 
 	int selected;
 
 	clrscr();
+<<<<<<< HEAD
 	gotoxy(x, y++);
 	printf("Select The game mode!!!");
 	gotoxy(x, y++);
@@ -74,11 +89,35 @@ int getGameSpeed(void)
 
 	return(selected);
 
+=======
+	gotoxy(x,y++);
+	printf("Select The game mode!!!");
+	gotoxy(x,y++);
+
+	gotoxy(x,y++);
+	printf("EASY\n");
+	gotoxy(x,y++);
+	printf("NORMAL\n");
+	gotoxy(x, y++);
+	printf("HARD\n");
+	gotoxy(x,y++);
+
+	selected = menuSelector(x,y,yStart);
+
+	selected = (selected+1) * 3;
+	//EASY -> 3, NOMAL -> 6, HARD -> 9
+	
+	return(selected);
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 }
 
 /**
 * 입력이 있을 때까지 게임을 pause 시킬 때 사용되는 함수이다.
+<<<<<<< HEAD
 * 단순히 하나의 입력이 들어올때까지 무한히 반복문이 돌면서
+=======
+* 단순히 하나의 입력이 들어올때까지 무한히 반복문이 돌면서 
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 * 게임이 멈추는 듯한 효과를 준다.
 **/
 void pauseMenu(void)
@@ -96,24 +135,39 @@ void pauseMenu(void)
 
 /**
 * 방향키와 ecs,p 키가 눌렸나 검사하고 키에 해당하는 int값을 반환하는 함수이다.
+<<<<<<< HEAD
 *
+=======
+* 
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 * @param int direction : 뱀의 기존 이동방향
 * @return int : 뱀의 이동방향을 뜻하는 키보드로부터 입력된 값
 **/
 int checkKeysPressed(int direction)
 {
 	int pressed;
+<<<<<<< HEAD
 
 	if (_kbhit()) //키보드에 입력이 있었는지를 검사함.
 	{
 		pressed = _getch();
+=======
+	
+	if(_kbhit()) //키보드에 입력이 있었는지를 검사함.
+	{
+		pressed=_getch();
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 		//getch는 입력 버퍼를 사용하지 않아 화면이 멈추지 않음.
 		if (direction != pressed) //입력이 기존의 뱀의 이동 방향과 동일한지 검사
 		{
 			//각 뱀의 진행반향과 입력 방향이 반대가 아닌지 검사함(반대로 바로 방향바꾸는 것을 막기위해)
 			//반대방향이 아니라면 입력을 pressed에 저장하고 리턴함.
 			//esc, p 일 경우에는 pauseMenu()함수를 호출하여 화면을 멈춤
+<<<<<<< HEAD
 			if (pressed == DOWN_ARROW && direction != UP_ARROW)
+=======
+			if(pressed == DOWN_ARROW && direction != UP_ARROW)
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 				direction = pressed;
 			else if (pressed == UP_ARROW && direction != DOWN_ARROW)
 				direction = pressed;
@@ -132,14 +186,23 @@ int checkKeysPressed(int direction)
 
 
 /**
+<<<<<<< HEAD
 *파라미터로 넘어온 x,y좌표에 해당하는 값이 뱀의 몸통만 혹은 머리, 몸통 모두와 충동하는지 검사하는 함수이다.
+=======
+*파라미터로 넘어온 x,y좌표에 해당하는 값이 뱀의 몸통만 혹은 머리, 몸통 모두와 충동하는지 검사하는 함수이다. 
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 *
 * @param int x : x좌표
 * @param int y : y좌표
 * @param int snakeXY[][SNAKE_ARRAY_SIZE] : y좌표
 * @param int snakeLength : 뱀의 길이
+<<<<<<< HEAD
 * @param int detect : 0일 경우 뱀의 머리, 몸통 전체에 대해 충돌을 검사함,
 *					  1일 경우 뱀의 몸통과 충돌을 검사함
+=======
+* @param int detect : 0일 경우 뱀의 머리, 몸통 전체에 대해 충돌을 검사함, 
+*					  1일 경우 뱀의 몸통과 충돌을 검사함 
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 * @return 0 : 뱀의 머리 혹은 몸통과 충돌하지 않음 ,1 : 뱀의 머리 혹은 몸통과 충돌함
 **/
 int collisionSnake(int x, int y, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int detect)
@@ -147,7 +210,11 @@ int collisionSnake(int x, int y, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLengt
 	int i;
 	for (i = detect; i < snakeLength; i++) //detech가 0이면 머리포함 충돌 검사, 1이면 몸통만 충돌검사
 	{
+<<<<<<< HEAD
 		if (x == snakeXY[0][i] && y == snakeXY[1][i]) // 충돌하였는지 검사
+=======
+		if ( x == snakeXY[0][i] && y == snakeXY[1][i]) // 충돌하였는지 검사
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 			return(1);
 	}
 	return(0);
@@ -156,7 +223,11 @@ int collisionSnake(int x, int y, int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLengt
 /**
 * 파라미터로 넘어온 x,y좌표에 해당하는 값이 뱀의 몸통만 혹은 머리, 몸통 모두와 충동하는지 검사하는 함수이다.
 *
+<<<<<<< HEAD
 * @param int foodXY[] : 먹이의 x,y좌표를 가진 배열 foodXY[0]:x좌표, foodXY[1]:y좌표
+=======
+* @param int foodXY[] : 먹이의 x,y좌표를 가진 배열 foodXY[0]:x좌표, foodXY[1]:y좌표 
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 * @param int width : 게임 판 넓이
 * @param int height : 게임 판 높이
 * @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀 머리, 몸통 위치 배열
@@ -168,6 +239,7 @@ int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_
 {
 	do
 	{
+<<<<<<< HEAD
 		srand((unsigned int)time(NULL));
 		foodXY[0] = rand() % (width - 2) + 2;
 		srand((unsigned int)time(NULL));
@@ -176,6 +248,16 @@ int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_
 	//뱀 머리,몸통 위에 먹이가 생성될 시, 먹이를 먹은것으로 되기 때문에 뱀의 위치와 다른 위치에 먹이가 생성될때까지 반복한다. 
 
 	gotoxy(foodXY[0], foodXY[1]);
+=======
+		srand ( (unsigned int)time(NULL) );
+		foodXY[0] = rand() % (width-2) + 2;
+		srand ( (unsigned int)time(NULL) );
+		foodXY[1] = rand() % (height-6) + 2;
+	}  while(collisionSnake(foodXY[0], foodXY[1], snakeXY, snakeLength, 0));
+	//뱀 머리,몸통 위에 먹이가 생성될 시, 먹이를 먹은것으로 되기 때문에 뱀의 위치와 다른 위치에 먹이가 생성될때까지 반복한다. 
+	
+	gotoxy(foodXY[0] ,foodXY[1]);
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	printf("%c", FOOD);
 
 	return(0);
@@ -184,7 +266,11 @@ int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_
 /**
 * 뱀을 이동시킨 후 뱀의 몸통부분과 뱀의 머리 방향을 재설정하는 함수.
 * 이동 후에 뱀의 몸통부분 배열을 재배열하고, 이동방향에 따라 뱀의 머리 방향을 설정
+<<<<<<< HEAD
 *
+=======
+* 
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 * @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀을 나타내기위한 함수
 * @param int snakeLength : 뱀 길이
 * @param int direction : 이동 방향
@@ -192,6 +278,7 @@ int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_
 void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 {
 	int i;
+<<<<<<< HEAD
 
 	//뱀의 배열의 각 인덱스의 값을 한칸씩 뒤로 밀어 뱀의 몸통부분이 이동한 것을 구현
 	for (i = snakeLength - 1; i >= 1; i--)
@@ -202,6 +289,18 @@ void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direct
 
 	//파라미터로 받은 방향에 따라 뱀의 머리 방향을 설정
 	switch (direction)
+=======
+	
+	//뱀의 배열의 각 인덱스의 값을 한칸씩 뒤로 밀어 뱀의 몸통부분이 이동한 것을 구현
+	for( i = snakeLength-1; i >= 1; i-- )
+	{
+		snakeXY[0][i] = snakeXY[0][i-1]; //뱀의 위, 아래를 표현하는 배열
+		snakeXY[1][i] = snakeXY[1][i-1]; //뱀의 왼쪽, 오른쪽을 표현하는 배열
+	}	
+	
+	//파라미터로 받은 방향에 따라 뱀의 머리 방향을 설정
+	switch(direction)
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	{
 	case DOWN_ARROW:
 		snakeXY[1][0]++;
@@ -253,6 +352,7 @@ void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 	int x, y;
 
 	//이동 전 위치의 뱀 꼬리의 위치를 저장
+<<<<<<< HEAD
 	x = snakeXY[0][snakeLength - 1];
 	y = snakeXY[1][snakeLength - 1];
 
@@ -271,6 +371,26 @@ void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction)
 	gotoxy(snakeXY[0][0], snakeXY[1][0]);
 	printf("%c", SNAKE_HEAD);
 
+=======
+	x = snakeXY[0][snakeLength-1];
+	y = snakeXY[1][snakeLength-1];
+	
+	//꼬리 부분의 위치로 이동해 꼬리 삭제
+	gotoxy(x,y);
+	printf("%c",BLANK);	
+	
+	//이동 전 뱀의 머리부분으로 이동해 그 위치를 몸통으로 바꿈
+	gotoxy(snakeXY[0][0],snakeXY[1][0]);	
+	printf("%c", SNAKE_BODY);
+	
+	//이동 후 뱀의 몸통부분을 재배열하고, 뱀의 머리방향 설정
+	moveSnakeArray(snakeXY, snakeLength, direction);
+	
+	//새로운 머리 부분으로 이동해 머리 출력
+	gotoxy(snakeXY[0][0],snakeXY[1][0]);	
+	printf("%c",SNAKE_HEAD);
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	//gotoxy(1,1); //(1,1)로 커서 이동
 	CursorView(0); //커서 숨김
 	return;
@@ -289,7 +409,11 @@ int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[])
 	{
 		foodXY[0] = 0;
 		foodXY[1] = 0; // fixme: 무한 반복되는 버그가 있는 것으로 알려짐.  여전히 버그가 발생하는지 확인 필요.
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 		printf("\7"); //비프음
 		return(1); // 1
 	}
@@ -353,20 +477,35 @@ void createHighScores(void)
 	FILE* file;
 	int i;
 
+<<<<<<< HEAD
 	fopen_s(&file, "highscores.txt", "w+"); //highscores.txt 파일을 생성함. 파일이 이미 있으면 그 파일을 지우고 생성
 	
 	if (file == NULL)  // 파일이 존재하지 않을 경우
+=======
+	fopen_s(&file,"highscores.txt","w+"); //highscores.txt 파일을 생성함. 파일이 이미 있으면 그 파일을 지우고 생성
+	
+	if(file == NULL)  // 파일이 존재하지 않을 경우
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	{
 		printf("FAILED TO CREATE HIGHSCORES!!! EXITING!");
 		exit(0);    //에러 메시지 출력 후 종료
 	}
 	
+<<<<<<< HEAD
 	for (i = 0; i < 5; i++) // 역대 최고 점수를 출력
 	{
 		fprintf(file, "%d", i + 1);
 		fprintf(file, "%s", "\t0\t\t\tEMPTY\n");
 	}
 
+=======
+	for(i = 0; i < 5; i++) // 역대 최고 점수를 출력
+	{
+		fprintf(file,"%d",i+1);
+		fprintf(file,"%s","\t0\t\t\tEMPTY\n");
+	}	
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	fclose(file);	//파일을 닫음
 	return;
 }
@@ -382,6 +521,7 @@ int getLowestScore()
 	int lowestScore = 0;
 	int i;
 	int intLength;
+<<<<<<< HEAD
 	fopen_s(&fp, "highscores.txt", "r"); //highscores.txt를 읽기 모드로 열기
 	if (fp == NULL)   //파일이 존재하지 않을 경우
 	{
@@ -401,11 +541,32 @@ int getLowestScore()
 
 	i = 0;
 	while (str[2 + i] != '\t')	 //문자열에서 점수의 자릿수 구하기
+=======
+	fopen_s(&fp,"highscores.txt", "r"); //highscores.txt를 읽기 모드로 열기
+	rewind(fp);	//위치 지정자를 맨 처음으로
+	if(fp == NULL)   //파일이 존재하지 않을 경우
+	{
+		createHighScores();   // createHighScores()함수에서 파일 생성
+		if(fp == NULL)	 //파일이 존재하지 않으면
+			exit(1);   //종료
+	}
+
+	while(!feof(fp))  //highscores.txt의 마지막 줄을 가져오기 위한 while문
+	{
+		fgets(str, sizeof(str), fp);   //str 변수에 fp의 문장 한 줄을 복사
+	}
+	fclose(fp);  //파일 닫기
+	
+	i=0;
+	
+	while(str[2+i] != '\t')	 //문자열에서 점수의 자릿수 구하기
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	{
 		i++;
 	}
 
 	intLength = i;
+<<<<<<< HEAD
 
 	for (i = 0; i < intLength; i++)  //문자열에서 점수를 추출
 	{
@@ -433,6 +594,10 @@ void resetRankData()
 	clrscr();    //화면 초기화
 	gotoxy(9, 8);
 	if (pressed == 'y') // y값인 경우 (=사용자가 삭제 선택) 
+=======
+	
+	for(i=0;i < intLength; i++)  //문자열에서 점수를 추출
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	{
 		fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
 
@@ -464,10 +629,70 @@ void resetRankData()
 		waitForAnyKey();
 	}
 
+<<<<<<< HEAD
 	return;
 }
 
 /**
+=======
+	return(lowestScore);	 //기록 중에서 최저 점수 반환
+}
+
+/**
+ * 기존 랭킹 데이터(최고 점수들) 파일 초기화 함수
+ **/
+void resetRankData()
+{
+	FILE *fp;
+	int i;
+	clrscr();    //화면 초기화
+
+	char pressed; // 사용자의 입력값을 담을 변수. 한 글자로 char 타입. 
+	gotoxy(9, 8); // 메시지 출력을 위해 (9,8) 위치로 좌표 이동.
+	printf("Are you sure you want to reset rank data? (y/n)\n"); //종료 여부 확인 메시지.
+
+	pressed = waitForAnyKey(); // waitForAnyKey() Func로부터 키 입력받아 pressed에.
+	pressed = (char)tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
+
+	clrscr();    //화면 초기화
+	gotoxy(9, 8);
+	if (pressed == 'y') // y값인 경우 (=사용자가 삭제 선택) 
+	{
+		fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
+		
+		if (fp == NULL)
+		{
+			printf("FAILED!!!");
+			waitForAnyKey();
+			return;
+		}
+
+		for (i = 0; i < 5; i++)
+		{
+			fprintf(fp, "%d\t0\t\t\tEMPTY\n", i + 1);
+			printf("(%d of %d)... ", i + 1, 5);
+		}
+
+		fclose(fp);	 //highscores.txt 닫음
+
+		printf("DELETED!!!");
+		gotoxy(9, 9);
+		printf("Press any key to continue...");
+		waitForAnyKey();
+	}
+	else 
+	{
+		printf("CANCELED!!!");
+		gotoxy(9, 9);
+		printf("Press any key to continue...");
+		waitForAnyKey();
+	}
+
+	return;
+}
+
+/**
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
  * 최고 점수 기록 함수
  * 게임이 끝났을 때 결과 점수가
  * 기록된 최고 점수 기록 중
@@ -489,6 +714,7 @@ void inputScore(int score)
 	char* name = (char*)calloc(SIZE_NAME, sizeof(char));
 
 	int entered = 0;
+<<<<<<< HEAD
 
 	clrscr();    //화면 초기화
 
@@ -511,13 +737,41 @@ void inputScore(int score)
 
 		//저장된 점수의 자릿수 구하기
 		while (str[2 + i] != '\t')
+=======
+	
+	clrscr();    //화면 초기화
+	
+	fopen_s(&fp, "highscore.txt", "r");  //highscore.txt를 읽기 모드로 열음
+	if(fp == NULL)	 //파일이 없으면 종료
+	    exit(1);
+	gotoxy(10,5);	//커서 이동
+	printf("Your Score made it into the top 5!!!");
+	gotoxy(10,6);	//커서 이동
+	printf("Please enter your name: ");
+	gets_s(name,sizeof(name));  //기록 할 name을 입력 받음
+	
+	x = 0;
+	while(!feof(fp))    //파일 내용이 끝날 때 까지 반복
+	{
+		fgets(str, 126, fp);    //문장을 파일에서 한줄씩 가져와 문자열 str에 넣음
+		
+		i=0;
+		
+		//저장된 점수의 자릿수 구하기
+		while(str[2+i] != '\t')
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 		{
 			i++;
 		}
 		s = i;
 		intLength = i;
+<<<<<<< HEAD
 		i = 0;
 		while (str[5 + s] != '\n')	 //문자열 str에서 name을 가져오기 위한 반복문
+=======
+		i=0;
+		while(str[5+s] != '\n')	 //문자열 str에서 name을 가져오기 위한 반복문
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 		{
 			highScoreName[i] = str[5 + s];
 			s++;
@@ -525,10 +779,15 @@ void inputScore(int score)
 		}
 
 		fScore = 0;
+<<<<<<< HEAD
 		for (i = 0; i < intLength; i++) //문자열 str에서 점수를 가져오기 위한 반복문
+=======
+		for(i=0;i < intLength; i++) //문자열 str에서 점수를 가져오기 위한 반복문
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 		{
 			fScore = fScore + ((int)str[2 + i] - 48) * (int)pow(10, (double)intLength - i - 1);
 		}
+<<<<<<< HEAD
 
 		if (score >= fScore && entered != 1) //저장 되어 있는 점수보다 새로운 점수가 더 크거나 같으면서 등록된 적이 없을때
 		{
@@ -568,6 +827,45 @@ void inputScore(int score)
 	if (!fp == NULL)	 //highscores.txt 존재 확인
 		fclose(fp);	 //highscores.txt 닫음
 
+=======
+		
+		if(score >= fScore && entered != 1) //저장 되어 있는 점수보다 새로운 점수가 더 크거나 같으면서 등록된 적이 없을때
+		{
+			scores[x] = score;  //새로운 x번째 배열에 저장
+			strcpy_s(highScoreNames[x], sizeof(highScoreNames[x]),name);	//입력된 이름을 기록 x번째 배열에 저장
+			
+			x++; // 5위까지 카운트 하기 위한 변수 증가
+			entered = 1; //새로운 점를 저장여부 flag
+		}
+		
+		strcpy_s(highScoreNames[x],sizeof(highScoreNames[x]), highScoreName);	//원래 기록의 이름을 기록 x번째 배열에 저장
+		scores[x] = fScore;	//기존 기록을 x번째 배열에 저장
+		
+		for(y=0;y<20;y++)   //문자열 변수 초기화
+		{
+			highScoreName[y] = '\0';
+		}
+		
+		x++;	//5위까지 카운트 하기 위한 변수 증가
+		if(x >= 5)  //기록 5개 기록시 while문 벗어남
+			break;
+	}
+	
+	fclose(fp); //highscores.txt를 닫음
+	
+	fopen_s(&fp, "highscores.txt", "w+");	//highscore.txt를 쓰기 모드로 열음
+	
+	for(i=0;i<5;i++)
+	{
+		//파일에 기록 입력
+		if(!fp == '0')	//highscores.txt 존재 확인
+		    fprintf(fp, "%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);	
+	}
+
+	if(!fp == '0')	 //highscores.txt 존재 확인
+	    fclose(fp);	 //highscores.txt 닫음
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	return;
 }
 /**
@@ -579,6 +877,7 @@ void displayHighScores(void)
 	FILE* fp;
 	char* str = (char*)calloc(SIZE_STR, sizeof(char));
 	int y = 5;
+<<<<<<< HEAD
 
 	clrscr();  //화면 초기화
 	fopen_s(&fp, "highscores.txt", "r"); //highscores.txt 파일을 읽기 모드로 열기
@@ -597,12 +896,36 @@ void displayHighScores(void)
 	while (!feof(fp)) { //파일이 끝날 때까지 파일의 내용 한 줄 씩 출력하기 위한 while문
 		gotoxy(10, y++);
 		if (fgets(str, SIZE_STR, fp)) //highscores.txt 파일 한 줄을 가져옴
+=======
+	
+	clrscr();  //화면 초기화
+	fopen_s(&fp, "highscores.txt", "r"); //highscores.txt 파일을 읽기 모드로 열기
+
+	if(fp == NULL) {    //파일이 없는 경우 파일을 새로 생성
+		createHighScores(); //최고 점수 기록 화면을 출력하는 함수 호출
+		if(!fopen_s(&fp, "highscores.txt", "r"))    //highscores.txt 파일을 여는데 실패하면 프로그램 종료
+			exit(1);
+	}
+	
+	gotoxy(10,y++);	//출력을 위한 커서 이동
+	printf("High Scores");	
+	gotoxy(10,y++);
+	printf("Rank\tScore\t\t\tName");
+	while(!feof(fp)) { //파일이 끝날 때까지 파일의 내용 한 줄 씩 출력하기 위한 while문
+		gotoxy(10,y++);
+		if(fgets(str, 126, fp)) //highscores.txt 파일 한 줄을 가져옴
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 			printf("%s", str);
 	}
 
 	fclose(fp); 	//파일 닫기
+<<<<<<< HEAD
 	gotoxy(10, y++);
 
+=======
+	gotoxy(10,y++);
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	printf("Press any key to continue...");
 	gotoxy(10, y++);
 
@@ -626,9 +949,15 @@ void displayHighScores(void)
 void youWinScreen(void)
 {
 	int x = 6, y = 7; // 메시지 시작 좌표 지정 (6,7)
+<<<<<<< HEAD
 	gotoxy(x, y++); // x, y 좌표값을 따라 이동, 후위 연산자이므로 (6, 7)로 이동후 y값이 8로 증가됨.
 	printf("'##:::'##::'#######::'##::::'##::::'##:::::'##:'####:'##::: ##:'####:");
 	gotoxy(x, y++); // x 값을 유지한 상태로 한 줄 아래로 이동... (이후 반복)
+=======
+	gotoxy(x,y++); // x, y 좌표값을 따라 이동, 후위 연산자이므로 (6, 7)로 이동후 y값이 8로 증가됨.
+	printf("'##:::'##::'#######::'##::::'##::::'##:::::'##:'####:'##::: ##:'####:");
+	gotoxy(x,y++); // x 값을 유지한 상태로 한 줄 아래로 이동... (이후 반복)
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	printf(". ##:'##::'##.... ##: ##:::: ##:::: ##:'##: ##:. ##:: ###:: ##: ####:");
 	gotoxy(x, y++);
 	printf(":. ####::: ##:::: ##: ##:::: ##:::: ##: ##: ##:: ##:: ####: ##: ####:");
@@ -642,8 +971,13 @@ void youWinScreen(void)
 	printf("::: ##::::. #######::. #######:::::. ###. ###::'####: ##::. ##: ####:");
 	gotoxy(x, y++);
 	printf(":::..::::::.......::::.......:::::::...::...:::....::..::::..::....::");
+<<<<<<< HEAD
 	gotoxy(x, y++);
 
+=======
+	gotoxy(x,y++);	
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	waitForAnyKey(); //사용자 키 입력이 있을때까지 대기.
 	clrscr(); //clear the console
 	return;
@@ -655,12 +989,21 @@ void youWinScreen(void)
 void gameOverScreen(void)
 {
 	int x = 17, y = 3; // 메시지 시작 좌표 지정 (17,3)
+<<<<<<< HEAD
 
 	//http://www.network-science.de/ascii/ <- Ascii Art Gen : 아스키 아트 생성 사이트 URL (참조용 주석)
 
 	gotoxy(x, y++); // x, y 좌표값을 따라 이동, 후위 연산자이므로 (17, 3)으로 이동후 y값이 8로 증가됨.
 	printf(":'######::::::'###::::'##::::'##:'########:\n");
 	gotoxy(x, y++); // x 값을 유지한 상태로 한 줄 아래로 이동... (이후 반복)
+=======
+	
+	//http://www.network-science.de/ascii/ <- Ascii Art Gen : 아스키 아트 생성 사이트 URL (참조용 주석)
+	
+	gotoxy(x,y++); // x, y 좌표값을 따라 이동, 후위 연산자이므로 (17, 3)으로 이동후 y값이 8로 증가됨.
+	printf(":'######::::::'###::::'##::::'##:'########:\n");
+	gotoxy(x,y++); // x 값을 유지한 상태로 한 줄 아래로 이동... (이후 반복)
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	printf("'##... ##::::'## ##::: ###::'###: ##.....::\n");
 	gotoxy(x, y++);
 	printf(" ##:::..::::'##:. ##:: ####'####: ##:::::::\n");
@@ -690,7 +1033,11 @@ void gameOverScreen(void)
 	printf(". #######::::. ###:::: ########: ##:::. ##: ####:\n");
 	gotoxy(x, y++);
 	printf(":.......::::::...:::::........::..:::::..::....::\n");
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	waitForAnyKey(); //사용자 키 입력이 있을때까지 대기.
 	clrscr(); //화면을 비워줌
 	return;
@@ -729,13 +1076,22 @@ int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
 * @param int speed : 초기 게임의 속도 (단계)
 **/
 //Todo /maybe-later: 코드 정리 필요.
+<<<<<<< HEAD
 void startGame(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth, int consoleHeight, int snakeLength, int direction, int score, int speed)
+=======
+void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth, int consoleHeight, int snakeLength, int direction, int score, int speed)
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 {
 	int gameOver = 0; // gameOver 여부 체크 변수. (0: 게임 진행, 1: 게임 오버, 2: 승리)
 	clock_t endWait; // 대기 종료 시간을 담을 변수.
 
+<<<<<<< HEAD
 	int waitMili = CLOCKS_PER_SEC - (speed) * (CLOCKS_PER_SEC / 10);	// 현재 게임 속도에 맞는 대기 시간 설정 (대기 시간 : 1초 - 게임속도(단계) * 0.1초)
 	int tempScore = 10 * speed; // 속도 증가 시점에서 현재 스코어와 비교할 기준값을 위한 임시 변수. 초기값 : 10 * 속도.
+=======
+	int waitMili = CLOCKS_PER_SEC-(speed)*(CLOCKS_PER_SEC/10);	// 현재 게임 속도에 맞는 대기 시간 설정 (대기 시간 : 1초 - 게임속도(단계) * 0.1초)
+	int tempScore = 10*speed; // 속도 증가 시점에서 현재 스코어와 비교할 기준값을 위한 임시 변수. 초기값 : 10 * 속도.
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	int oldDirection = 0; // 직전 방향값을 저장하기 위한 변수
 	int canChangeDirection = 1; // 방향 전환이 가능한 상태인지 저장 (0: 불가능, 1: 가능)
 
@@ -743,12 +1099,17 @@ void startGame(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth, 
 
 	do
 	{
+<<<<<<< HEAD
 		if (canChangeDirection) //방향 전환이 가능한 상태인 경우.
+=======
+		if(canChangeDirection) //방향 전환이 가능한 상태인 경우.
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 		{
 			oldDirection = direction; // 현재 방향을 oldDirection에 저장.
 
 			direction = checkKeysPressed(direction); //새 방향값을 받아 대입.
 		}
+<<<<<<< HEAD
 
 		if (oldDirection != direction) // 직전 방향과 다른 경우
 			canChangeDirection = 0; //방향 전환이 불가능하도록 설정. (snake가 스스로 충돌하는 것을 방지)
@@ -762,10 +1123,26 @@ void startGame(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth, 
 		}
 
 		if (clock() >= endWait) // 대기 종료 시간이 지난 경우. (컴퓨터 속도에 따라 동작.)
+=======
+		
+		if(oldDirection != direction) // 직전 방향과 다른 경우
+			canChangeDirection = 0; //방향 전환이 불가능하도록 설정. (snake가 스스로 충돌하는 것을 방지)
+		if (direction == CUT_BUTTON) { //'C'키가 눌리고,
+		    if(snakeLength > 8) { //뱀의 길이가 8보다 크면
+			score /= 2;    //점수를 절반으로 깎고
+			snakeLength = cutTail(snakeXY, snakeLength); //cuTail 함수를 호출하여 뱀의 길이를 절반으로 줄임.
+			refreshInfoBar(score, speed); //하단바 갱신
+		    }
+		    direction = oldDirection; //뱀의 이동방향은 전의 그대로
+		}
+
+		if(clock() >= endWait) // 대기 종료 시간이 지난 경우. (컴퓨터 속도에 따라 동작.)
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 		{
 			move(snakeXY, snakeLength, direction); // Snake를 지정한 방향으로 이동.
 			canChangeDirection = 1;  //다시 방향 전환이 가능하도록.
 
+<<<<<<< HEAD
 
 			if (eatFood(snakeXY, foodXY)) // 현재 좌표에 먹이가 존재한다면
 			{
@@ -774,11 +1151,22 @@ void startGame(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth, 
 				score += speed; //현재 속도만큼 점수 부여.
 
 				if (score >= 10 * speed + tempScore) // 현재 점수가 게임 속도 * 10 + 기준값이 되는 현재 단계 스코어보다 큰 경우 게임 속도 증가 처리.
+=======
+				
+			if(eatFood(snakeXY, foodXY)) // 현재 좌표에 먹이가 존재한다면
+			{
+				generateFood( foodXY, consoleWidth, consoleHeight, snakeXY, snakeLength); //새로운 먹이 생성.
+				snakeLength++; //Snake의 길이 증가.
+				score+=speed; //현재 속도만큼 점수 부여.
+
+				if( score >= 10*speed+tempScore) // 현재 점수가 게임 속도 * 10 + 기준값이 되는 현재 단계 스코어보다 큰 경우 게임 속도 증가 처리.
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 				{
 					speed++; // 게임 속도 증가.
 					tempScore = score; // 판단 기준값을 현재 스코어로 변경.
 
 					//게임 속도가 9 이하인 경우
+<<<<<<< HEAD
 					if (speed <= 9) //TODO : 점검 필요
 						waitMili = waitMili - (CLOCKS_PER_SEC / 10); // 대기 시간 단축 : 기존 대기시간 - 1/10초
 					else // 게임 속도가 9보다 큰 경우
@@ -822,6 +1210,51 @@ void startGame(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth, 
 	}
 
 	if (score >= getLowestScore() && score != 0) //스코어 값이 존재하고 기존 랭킹의 최 하위값보다 스코어가 높은 경우 (= 순위권에 들어온 경우)
+=======
+					if(speed <= 9) //TODO : 점검 필요
+						waitMili = waitMili - (CLOCKS_PER_SEC/10); // 대기 시간 단축 : 기존 대기시간 - 1/10초
+					else // 게임 속도가 9보다 큰 경우
+					{
+						if(waitMili >= 40) // 현재 대기 시간이 게임 클럭 속도 기준 40 이상인 경우에만 속도 증가. (그보다 더 빠를 경우 현실적으로 게임 진행 불가한 속도이므로.)
+							waitMili = waitMili - (CLOCKS_PER_SEC/200); // 기존 대기시간 - 1/200초. (속도 증가폭 낮춤)
+						
+					}
+				}
+				
+				refreshInfoBar(score, speed); // 하단 바 갱신.
+			}
+			
+			// HACK : clock() 리셋 방법 찾아서 수정 필요. (현재는 동작하는 것으로 보임)
+			endWait = clock() + waitMili; //현재 시간 기준으로 대기 종료 시간 생신. 
+		}
+		
+		gameOver = collisionDetection(snakeXY, consoleWidth, consoleHeight, snakeLength); // 게임 오버 조건 체크해 종료 코드 대입 (Snake가 창 끝에 닿았거나 Snake끼리 닿은 경우 1 대입 = 게임 오버)
+
+		if(snakeLength >= SNAKE_ARRAY_SIZE-5) // Snake의 길이가 (설정한 최대 길이 - 5) 이상인 경우 게임 승리. (배열 크기보다 길어질 경우 크래시 발생하므로.)
+		{
+			gameOver = 2; //gameOver에 승리시를 뜻하는 코드 2 삽입. (while문 탈출 유도) 
+			//TODO : 위 코드가 동작하지 않는 것으로 보인다고 함, 테스트 및 필요시 수정.
+			score+=1500; //승리시, 보너스 포인트 1500원 지급.
+		}
+		
+	} while (!gameOver); //gameOver값이 0이 아닐때까지 loop.
+	
+	switch(gameOver) //gameOver 값에 따라 분기
+	{
+		case 1: //패배시
+			printf("\7"); //Beep
+			printf("\7"); //Beep : 비프음 2회 출력
+
+			gameOverScreen(); // 게임 오버 화면 호출후 탈출
+
+			break;
+		case 2: //승리시
+			youWinScreen(); // 승리 화면 호출후 탈출
+			break;
+	}
+	
+	if(score >= getLowestScore() && score != 0) //스코어 값이 존재하고 기존 랭킹의 최 하위값보다 스코어가 높은 경우 (= 순위권에 들어온 경우)
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	{
 		inputScore(score); // 랭킹 데이터에 현재 스코어 기록.
 		displayHighScores(); // 랭킹 출력.
@@ -841,21 +1274,35 @@ void loadEnviroment(int consoleWidth, int consoleHeight)
 	int x = 1, y = 1;
 	int rectangleHeight = consoleHeight - 4; //y의 범위 1~20로 설정함
 	clrscr(); //화면을 지움
+<<<<<<< HEAD
 
 	gotoxy(x, y);
 
+=======
+	
+	gotoxy(x,y);
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	//왼쪽 오른쪽 벽 출력
 	for (; y < rectangleHeight; y++)
 	{
 		gotoxy(x, y); //왼쪽벽 시작부분으로 커서이동
+<<<<<<< HEAD
 		printf("%c", WALL);
 
 		gotoxy(consoleWidth, y); //오른쪽벽 시작부분으로 커서이동
 		printf("%c", WALL);
+=======
+		printf("%c",WALL);
+		
+		gotoxy(consoleWidth, y); //오른쪽벽 시작부분으로 커서이동
+		printf("%c",WALL);
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	}
 
 	y = 1;
 	//상단 하단 벽 출력
+<<<<<<< HEAD
 	for (; x < consoleWidth + 1; x++)
 	{
 		gotoxy(x, y); //상단벽 시작부분으로 커서이동
@@ -863,6 +1310,15 @@ void loadEnviroment(int consoleWidth, int consoleHeight)
 
 		gotoxy(x, rectangleHeight); //하단벽 시작부분으로 커서이동
 		printf("%c", WALL);
+=======
+	for (; x < consoleWidth+1; x++)
+	{
+		gotoxy(x, y); //상단벽 시작부분으로 커서이동
+		printf("%c",WALL);
+		
+		gotoxy(x, rectangleHeight); //하단벽 시작부분으로 커서이동
+		printf("%c",WALL);
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	}
 
 	return;
@@ -878,9 +1334,15 @@ void loadEnviroment(int consoleWidth, int consoleHeight)
 void loadSnake(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
 {
 	int i;
+<<<<<<< HEAD
 
 	//뱀의머리부터 커서를 이동해가며 화면에 출력
 	for (i = 0; i < snakeLength; i++) {
+=======
+	
+	//뱀의머리부터 커서를 이동해가며 화면에 출력
+	for (i = 0; i < snakeLength; i++){
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 		gotoxy(snakeXY[0][i], snakeXY[1][i]);
 		printf("%c", SNAKE_BODY);
 	}
@@ -917,6 +1379,7 @@ void prepairSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength)
 void loadGame(void)
 {
 	int snakeXY[2][SNAKE_ARRAY_SIZE]; //뱀을 나타내기위한 배열
+<<<<<<< HEAD
 
 	int snakeLength = 4; //초기 뱀 길이
 
@@ -941,6 +1404,32 @@ void loadGame(void)
 	prepairSnakeArray(snakeXY, snakeLength); //뱀을 나타내기위한 배열 생성
 	loadSnake(snakeXY, snakeLength); //뱀 출력
 	generateFood(foodXY, consoleWidth, consoleHeight, snakeXY, snakeLength); //음식 생성
+=======
+	
+	int snakeLength = 4; //초기 뱀 길이
+	
+	int direction = LEFT_ARROW; //게임 시작 후 뱀 머리의 첫 방향
+	
+	int foodXY[] = {5,5}; //음식 위치 저장
+	
+	int score = 0; //초기 점수
+	
+	//벽 너비, 높이 설정	
+	int consoleWidth = 80;
+	int consoleHeight = 25;
+	
+	//게임 스피드 설정
+	int speed = selectGameMode();
+	
+	//초기 뱀머리 위치 설정
+	snakeXY[0][0] = 40; 
+	snakeXY[1][0] = 10;
+	
+	loadEnviroment(consoleWidth, consoleHeight); //벽 생성
+	prepairSnakeArray(snakeXY, snakeLength); //뱀을 나타내기위한 배열 생성
+	loadSnake(snakeXY, snakeLength); //뱀 출력
+	generateFood( foodXY, consoleWidth, consoleHeight, snakeXY, snakeLength); //음식 생성
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	refreshInfoBar(score, speed); //게임 정보 출력
 	startGame(snakeXY, foodXY, consoleWidth, consoleHeight, snakeLength, direction, score, speed); //본격적인 게임 시작
 
@@ -949,7 +1438,11 @@ void loadGame(void)
 
 /**
 * 메뉴 선택 구현 함수.
+<<<<<<< HEAD
 *
+=======
+* 
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 * @param int x : 커서 x좌표
 * @param int y : 커서 y좌표
 * @param int yStart : 초기 커서 y좌표
@@ -961,6 +1454,7 @@ int menuSelector(int x, int y, int yStart)
 	int i = 0;
 	x = x - 2; // ">"를 나타내기 위해 메뉴가 써있는 위치보다 왼쪽으로 두칸 이동
 	//초기 ">"의 위치 출력
+<<<<<<< HEAD
 	gotoxy(x, yStart);
 	printf(">");
 
@@ -968,11 +1462,21 @@ int menuSelector(int x, int y, int yStart)
 	//gotoxy(1,1);
 	CursorView(0); //커서 숨김
 
+=======
+	gotoxy(x,yStart);
+	printf(">");
+	
+	//커서 좌표 (1,1) 이동
+	//gotoxy(1,1);
+	CursorView(0); //커서 숨김
+
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	//방향키 위, 아래를 입력하며 메뉴 선택 구현
 	do
 	{
 		key = waitForAnyKey(); //입력 대기
 
+<<<<<<< HEAD
 		if (key == (char)UP_ARROW) //위 방향키 입력
 		{
 			gotoxy(x, yStart + i); //이동했으니 원래 있던 위치에 있는 ">"를 지움
@@ -1000,6 +1504,35 @@ int menuSelector(int x, int y, int yStart)
 			}
 
 	} while (key != (char)ENTER_KEY); //Enter키 입력 시 종료
+=======
+		if ( key == (char)UP_ARROW ) //위 방향키 입력
+		{
+			gotoxy(x,yStart+i); //이동했으니 원래 있던 위치에 있는 ">"를 지움
+			printf(" ");
+			
+			if (yStart >= yStart+i ) //위로 이동할 때, 제일 위에있는 메뉴의 위치보다 더 위로 올라가면 위치를 재조정하여 제일 아래로 오게함
+				i = y - yStart - 2;
+			else //단순히 위로 올라가는 것 구현
+				i--;
+			gotoxy(x,yStart+i); //y좌표를 계산한 것에 따라 ">" 출력
+			printf(">");
+		}
+		else
+			if ( key == (char)DOWN_ARROW ) //아래 방향키 입력
+			{
+				gotoxy(x,yStart+i); //이동했으니 원래 있던 위치에 있는 ">"를 지움
+				printf(" ");
+				
+				if (i+2 >= y - yStart ) //아래로 이동할 때, 제일 아래에 있는 메뉴의 위치보다 더 아래로 내려가면 위치를 재조정하여 제일 위로 오게함
+					i = 0;
+				else //단순히 아래로 내려가는 것 구현
+					i++;
+				gotoxy(x,yStart+i); //y좌표를 계산한 것에 따라 ">" 출력
+				printf(">");				
+			}	
+
+	} while(key != (char)ENTER_KEY); //Enter키 입력 시 종료
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 
 	return(i);
 }
@@ -1011,11 +1544,19 @@ void welcomeArt(void)
 {
 	clrscr(); //전체화면 지움
 
+<<<<<<< HEAD
 	printf("\n");
 	printf("\t\t    _________         _________ 			\n");
 	printf("\t\t   /          )      /          ) 			\n");
 	printf("\t\t  /  /~~~~~|  |     /  /~~~~~|  | 			\n");
 	printf("\t\t  |  |     |  |     |  |     |  | 			\n");
+=======
+	printf("\n");	
+	printf("\t\t    _________         _________ 			\n");	
+	printf("\t\t   /          )      /          ) 			\n");	
+	printf("\t\t  /  /~~~~~|  |     /  /~~~~~|  | 			\n");	
+	printf("\t\t  |  |     |  |     |  |     |  | 			\n");		
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	printf("\t\t  |  |     |  |     |  |     |  | 			\n");
 	printf("\t\t  |  |     |  |     |  |     |  |      /	\n");
 	printf("\t\t  |  |     |  |     |  |     |  |     //	\n");
@@ -1026,7 +1567,11 @@ void welcomeArt(void)
 	printf("\t		Welcome To The Snake Game!			\n");
 	printf("\t			    Press Any Key To Continue...	\n");
 	printf("\n");
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	waitForAnyKey(); //입력대기
 	return;
 }
@@ -1041,7 +1586,11 @@ void controls(void)
 	clrscr(); //전체화면 지움
 
 	//gotoxy()를 이용해 커서를 이동하며 조작법 출력
+<<<<<<< HEAD
 	gotoxy(x, y++);
+=======
+	gotoxy(x,y++);
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	printf("Controls\n");
 	gotoxy(x++, y++);
 	printf("Use the following arrow keys to direct the snake to the food: ");
@@ -1069,15 +1618,25 @@ void controls(void)
 void exitYN(void)
 {
 	char pressed; // 사용자의 입력값을 담을 변수. 한 글자로 char 타입. 
+<<<<<<< HEAD
 	gotoxy(9, 8); // 메시지 출력을 위해 (9,8) 위치로 좌표 이동.
 	printf("Are you sure you want to exit(Y/N)\n"); //종료 여부 확인 메시지.
 
+=======
+	gotoxy(9,8); // 메시지 출력을 위해 (9,8) 위치로 좌표 이동.
+	printf("Are you sure you want to exit(Y/N)\n"); //종료 여부 확인 메시지.
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	do //무조건 한번은 실행
 	{
 		pressed = waitForAnyKey(); // waitForAnyKey() Func로부터 키 입력받아 pressed에.
 		pressed = (char)tolower(pressed); // 대문자일 경우 전부 소문자로 변환.
 	} while (!(pressed == 'y' || pressed == 'n')); // y또는 n값이 아닌 경우 계속 반복.
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	if (pressed == 'y') // y값인 경우 (=사용자가 종료 선택)
 	{
 		clrscr(); //지금까지 뿌린 화면 전부 삭제후.
@@ -1094,6 +1653,7 @@ int mainMenu(void)
 {
 	int x = 10, y = 5; //x, y에 커서의 이동 위치 저장
 	int yStart = y; //초기에 커서를 나타낼 위치를 위한 값으로 menuSelector()에 파라미터로 필요한 값
+<<<<<<< HEAD
 
 	int selected; //각 메뉴에 할당된 값
 
@@ -1101,6 +1661,15 @@ int mainMenu(void)
 
 	//gotoxy()를 이용해 커서 이동하며 메인메뉴 출력
 	gotoxy(x, y++);
+=======
+	
+	int selected; //각 메뉴에 할당된 값
+	
+	clrscr(); //전체화면 지움
+
+	//gotoxy()를 이용해 커서 이동하며 메인메뉴 출력
+	gotoxy(x,y++);
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	printf("New Game\n");
 	gotoxy(x, y++);
 	printf("High Scores\n");
@@ -1108,8 +1677,13 @@ int mainMenu(void)
 	printf("Controls\n");
 	gotoxy(x, y++);
 	printf("Exit\n");
+<<<<<<< HEAD
 	gotoxy(x, y++);
 
+=======
+	gotoxy(x,y++);
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	//menuSelector()를 이용해 각 메뉴에 대한 값을 반환하여 selected에 저장
 	selected = menuSelector(x, y, yStart);
 
@@ -1127,6 +1701,7 @@ int main()
 {
 
 	welcomeArt(); //초기화면 출력
+<<<<<<< HEAD
 
 	do
 	{
@@ -1147,6 +1722,28 @@ int main()
 		}
 	} while (1);
 
+=======
+	
+	do
+	{	
+		switch(mainMenu()) //각 메뉴에 대한 값 반환
+		{
+			case 0: //게임 시작
+				loadGame();
+				break;
+			case 1: //게임 기록 확인
+				displayHighScores();
+				break;	
+			case 2: //조작법 확인
+				controls();
+				break;		
+			case 3: //게임종료 확인
+				exitYN(); 
+				break;			
+		}		
+	} while(1);
+	
+>>>>>>> 2eebe67a81420cb523018d976744f4c03f9864de
 	return(0);
 }
 
