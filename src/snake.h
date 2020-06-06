@@ -8,6 +8,9 @@
 
 #define SNAKE_ARRAY_SIZE 310
 
+const int SIZE_STR = 128;
+const int SIZE_NAME = 20;
+
 #ifdef _WIN32
 //Windows Libraries
 #include <conio.h>
@@ -26,9 +29,6 @@ const char SNAKE_BODY = (char)48;
 const char WALL = (char)127;
 const char FOOD = (char)14;
 const char BLANK = ' ';
-
-const int SIZE_STR = 128;
-const int SIZE_NAME = 20;
 
 /**
 * 커서의 위치를 화면 왼쪽상단을 기준으로 x,y 만큼 이동
@@ -60,6 +60,7 @@ void clrscr()
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 //Linux Constants
 
