@@ -2,14 +2,18 @@
 Author: Matthew Vlietstra
 Version: 0.5
 Date: 28/09/2010
+
 Discription:
 This is a console snake game that can (or should) work in linux & windows environments.
+
 Windows:
 Compile with borland
+
 Linux:
 Please note, tested under Ubuntu not sure if it works in other linux environments. I recommend compiling with borland under windows for best results.
 Compile with gcc in linux using the following command:
 gcc snake.c -lm -o snake.out
+
 Cygwin:
 Although this program may compile/ run in Cygwin it runs slowly.	
 				
@@ -723,7 +727,6 @@ int cutTail(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength) {
 * @param int score : 초기 점수값
 * @param int speed : 초기 게임의 속도 (단계)
 **/
-//Todo /maybe-later: 코드 정리 필요.
 void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth, int consoleHeight, int snakeLength, int direction, int score, int speed)
 {
 	int gameOver = 0; // gameOver 여부 체크 변수. (0: 게임 진행, 1: 게임 오버, 2: 승리)
@@ -1112,6 +1115,21 @@ int mainMenu(void)
 }
 
 /**
+ * 다음 레벨의 기준 포인트 값을 구하는 함수
+ *
+ * @params int speed : 현재 게임의 속도
+ * @params int currentLevelPoint : 현 레벨의 기준 포인트
+ *
+ * @return int basePoint : 다음 레벨의 기준 포인트
+ **/
+int getNextLevelScore(int speed, int currentLevelPoint)
+{
+	int basePoint = speed * 10 + currentLevelPoint;
+	
+	return basePoint;
+}
+
+/**
 * main함수.
 * 초기화면 출력 후, mainMenu()를 이용해 반환되는 값에 따라 각각 함수 실행
 *
@@ -1144,3 +1162,4 @@ int main()
 	
 	return(0);
 }
+
