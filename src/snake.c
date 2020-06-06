@@ -73,6 +73,7 @@ int getGameSpeed(void)
 	//EASY -> 3, NOMAL -> 6, HARD -> 9
 
 	return(selected);
+
 }
 
 /**
