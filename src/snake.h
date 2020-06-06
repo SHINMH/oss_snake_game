@@ -147,6 +147,7 @@ int generateFood(int foodXY[], int width, int height, int snakeXY[][SNAKE_ARRAY_
 void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction);
 void move(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direction);
 int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[]);
+int collisionWall(int snakeXY[][SNAKE_ARRAY_SIZE], int consoleWidth, int consoleHeight);
 int collisionDetection(int snakeXY[][SNAKE_ARRAY_SIZE], int consoleWidth, int consoleHeight, int snakeLength);
 void refreshInfoBar(int score, int speed);
 void createHighScores(void);
