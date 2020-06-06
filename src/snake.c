@@ -224,6 +224,7 @@ void moveSnakeArray(int snakeXY[][SNAKE_ARRAY_SIZE], int snakeLength, int direct
 **/
 void CursorView(char show)
 {
+	#ifdef _WIN32
 	HANDLE hConsole;
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 
@@ -233,6 +234,9 @@ void CursorView(char show)
 	ConsoleCursor.dwSize = 1; //커서사이즈
 
 	SetConsoleCursorInfo(hConsole, &ConsoleCursor);
+	#else
+	gotoxy(1,1);
+	#endif
 	return;
 }
 
