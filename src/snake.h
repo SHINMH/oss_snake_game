@@ -183,5 +183,6 @@ void controls(void);
 void exitYN(void);
 int mainMenu(void);
 int getNextLevelScore(int speed, int currentLevelScore);
-
+int setSpeed(int score, int speed);
+int setWaitMili(int waitMili, int score, int speed);
 #endif
