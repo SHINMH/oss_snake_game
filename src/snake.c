@@ -2,18 +2,14 @@
 Author: Matthew Vlietstra
 Version: 0.5
 Date: 28/09/2010
-
 Discription:
 This is a console snake game that can (or should) work in linux & windows environments.
-
 Windows:
 Compile with borland
-
 Linux:
 Please note, tested under Ubuntu not sure if it works in other linux environments. I recommend compiling with borland under windows for best results.
 Compile with gcc in linux using the following command:
 gcc snake.c -lm -o snake.out
-
 Cygwin:
 Although this program may compile/ run in Cygwin it runs slowly.	
 				
@@ -1148,4 +1144,3 @@ int main()
 	
 	return(0);
 }
-
