@@ -377,7 +377,7 @@ void createHighScores(void)
 int getLowestScore()
 {
 	FILE *fp;
-	char* str = (char*)malloc(sizeof(char)*SIZE_STR);
+	char* str = (char*)calloc(SIZE_STR, sizeof(char));
 	int lowestScore = 0;
 	int i;
 	int intLength;
@@ -393,7 +393,7 @@ int getLowestScore()
 
 	while(!feof(fp))  //highscores.txt의 마지막 줄을 가져오기 위한 while문
 	{
-		fgets(str, sizeof(str), fp);   //str 변수에 fp의 문장 한 줄을 복사
+		fgets(str, SIZE_STR, fp);   //str 변수에 fp의 문장 한 줄을 복사
 	}
 	fclose(fp);  //파일 닫기
 	
@@ -478,22 +478,22 @@ void resetRankData()
 void inputScore(int score)
 {
 	FILE *fp;
-	char* str = (char*)malloc(sizeof(char)*SIZE_STR);
+	char* str = (char*)calloc(SIZE_STR,sizeof(char));
 	int fScore;
 	int i, s, y;
 	int intLength;
-	int* scores = (int*)malloc(sizeof(int)*5);
+	int* scores = (int*)calloc(5,sizeof(int));
 	int x;
-	char* highScoreName = (char*)malloc(sizeof(char)*SIZE_NAME);
+	char* highScoreName = (char*)calloc(SIZE_NAME,sizeof(char));
 	char highScoreNames[5][20];
 	
-	char* name = (char*)malloc(sizeof(char)*NAME);
+	char* name = (char*)calloc(SIZE_NAME,sizeof(char));
 	
 	int entered = 0;
 	
 	clrscr();    //화면 초기화
 	
-	fopen_s(&fp, "highscore.txt", "r");  //highscore.txt를 읽기 모드로 열음
+	fopen_s(&fp, "highscores.txt", "r");  //highscore.txt를 읽기 모드로 열음
 	if(fp == NULL)	 //파일이 없으면 종료
 	    exit(1);
 	gotoxy(10,5);	//커서 이동
@@ -560,11 +560,11 @@ void inputScore(int score)
 	for(i=0;i<5;i++)
 	{
 		//파일에 기록 입력
-		if(!fp == '0')	//highscores.txt 존재 확인
+		if(!fp == NULL)	//highscores.txt 존재 확인
 		    fprintf(fp, "%d\t%d\t\t\t%s\n", i+1, scores[i], highScoreNames[i]);	
 	}
 
-	if(!fp == '0')	 //highscores.txt 존재 확인
+	if(!fp == NULL)	 //highscores.txt 존재 확인
 	    fclose(fp);	 //highscores.txt 닫음
 	
 	return;
@@ -576,7 +576,7 @@ void inputScore(int score)
 void displayHighScores(void) 
 {
 	FILE *fp;
-	char* str = (char*)malloc(sizeof(char)*SIZE_STR);
+	char* str = (char*)calloc(SIZE_STR, sizeof(char));
 	int y = 5;
 	
 	clrscr();  //화면 초기화
