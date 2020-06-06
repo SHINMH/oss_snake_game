@@ -297,6 +297,20 @@ int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[])
 }
 
 
+/**
+* 뱀 머리가 벽 충돌했는지 검사하여 결과값을 반환한다.
+*
+* @param int snakeXY[][SNAKE_ARRAY_SIZE] : 뱀 머리, 몸통 위치 배열
+* @param int consoleWidth : 게임 판 넓이
+* @param int consoleHeight : 게임 판 높이
+* @return 0 : 뱀 머리가 벽 혹은 몸통에 충돌하지 않음, 1 : 뱀의 머리가 벽 혹은 몸통과 충돌함
+**/
+int collisionWall(int snakeXY[][SNAKE_ARRAY_SIZE], int consoleWidth, int consoleHeight) {
+	if ((snakeXY[0][0] == 1) || (snakeXY[1][0] == 1) || (snakeXY[0][0] == consoleWidth) || (snakeXY[1][0] == consoleHeight - 4)) {
+		return 1;
+	}
+	return 0;
+}
 
 /**
 * 뱀 머리가 벽 혹은 몸통에 충돌했는지 검사하여 결과값을 반환한다.
@@ -309,16 +323,16 @@ int eatFood(int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[])
 **/
 int collisionDetection(int snakeXY[][SNAKE_ARRAY_SIZE], int consoleWidth, int consoleHeight, int snakeLength )
 {
-	int colision = 0; //충돌했는 지를 나타내는 변수 collision 0(충돌하지 않음)으로 초기화
-
 	//뱀 머리가 벽 혹은 몸통과 충돌했는지 검사, 부딪치면 colision을 1로 초기화
-	if ((snakeXY[0][0] == 1) || (snakeXY[1][0] == 1) || (snakeXY[0][0] == consoleWidth) || (snakeXY[1][0] == consoleHeight - 4))
-		colision = 1;
-	else
-		if (collisionSnake(snakeXY[0][0], snakeXY[1][0], snakeXY, snakeLength, 1))
-			colision = 1;
-			
-	return(colision);
+	if (collisionWall(snakeXY, consoleWidth, consoleHeight)){
+		return 1;
+	}
+
+	if (collisionSnake(snakeXY[0][0], snakeXY[1][0], snakeXY, snakeLength, 1)){
+		return 1;
+	}
+		
+	return 0;
 }
 
 /**
