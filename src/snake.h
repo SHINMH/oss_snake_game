@@ -4,6 +4,7 @@
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define SNAKE_ARRAY_SIZE 310
 
@@ -74,6 +75,18 @@ const char WALL = '#';
 const char FOOD = '*';
 const char BLANK = ' ';
 
+static inline void strcpy_s(char *dest, size_t destsz, const char *src){
+    strcpy(dest, src);
+}
+
+static inline FILE* fopen_s(FILE** pFile, const char *filename, const char *mode){
+    return *pFile = fopen(filename, mode);
+}
+
+static inline void gets_s(char *str, size_t n){
+    gets(str);
+}
+
 //Linux Functions - These functions emulate some functions from the windows only conio header file
 //Code: http://ubuntuforums.org/showthread.php?t=549023
 void gotoxy(int x, int y)
@@ -82,7 +95,7 @@ void gotoxy(int x, int y)
 }
 
 //http://cboard.cprogramming.com/c-programming/63166-kbhit-linux.html
-int kbhit(void)
+int _kbhit(void)
 {
 	struct termios oldt, newt;
 	int ch;
@@ -110,7 +123,7 @@ int kbhit(void)
 }
 
 //http://www.experts-exchange.com/Programming/Languages/C/Q_10119844.html - posted by jos
-char getch()
+char _getch()
 {
 	char c;
 	system("stty raw");
