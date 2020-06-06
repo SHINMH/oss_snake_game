@@ -167,5 +167,6 @@ void welcomeArt(void);
 void controls(void);
 void exitYN(void);
 int mainMenu(void);
+int getNextLevelScore(int speed, int currentLevelScore);
 
 #endif

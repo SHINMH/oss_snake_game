@@ -734,7 +734,7 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 	clock_t endWait; // 대기 종료 시간을 담을 변수.
 
 	int waitMili = CLOCKS_PER_SEC-(speed)*(CLOCKS_PER_SEC/10);	// 현재 게임 속도에 맞는 대기 시간 설정 (대기 시간 : 1초 - 게임속도(단계) * 0.1초)
-	int tempScore = 10*speed; // 속도 증가 시점에서 현재 스코어와 비교할 기준값을 위한 임시 변수. 초기값 : 10 * 속도.
+	int currentLevelScore = 10*speed; // 속도 증가 시점에서 현재 스코어와 비교할 기준값을 위한 임시 변수. 초기값 : 10 * 속도.
 	int oldDirection = 0; // 직전 방향값을 저장하기 위한 변수
 	int canChangeDirection = 1; // 방향 전환이 가능한 상태인지 저장 (0: 불가능, 1: 가능)
 
@@ -772,10 +772,10 @@ void startGame( int snakeXY[][SNAKE_ARRAY_SIZE], int foodXY[], int consoleWidth,
 				snakeLength++; //Snake의 길이 증가.
 				score+=speed; //현재 속도만큼 점수 부여.
 
-				if( score >= 10*speed+tempScore) // 현재 점수가 게임 속도 * 10 + 기준값이 되는 현재 단계 스코어보다 큰 경우 게임 속도 증가 처리.
+				if( score >= getNextLevelScore(speed, currentLevelScore)) // 현재 점수가 게임 속도 * 10 + 기준값이 되는 현재 단계 스코어보다 큰 경우 게임 속도 증가 처리.
 				{
 					speed++; // 게임 속도 증가.
-					tempScore = score; // 판단 기준값을 현재 스코어로 변경.
+					currentLevelScore = score; // 판단 기준값을 현재 스코어로 변경.
 
 					//게임 속도가 9 이하인 경우
 					if(speed <= 9) //TODO : 점검 필요
